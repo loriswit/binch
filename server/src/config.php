@@ -2,6 +2,7 @@
 
 require __DIR__ . "/../vendor/autoload.php";
 
+use Binch\Middleware\CORS;
 use Binch\Util\HttpError;
 use RedBeanPHP\R;
 use Slim\Container;
@@ -30,10 +31,11 @@ $container["errorHandler"] = function($c)
 {
     return function(Request $request, Response $response, Exception $exception) use ($c)
     {
+        $response = CORS::withCORSHeaders($c["response"]);
         if($exception instanceof HttpError)
-            return $c["response"]->withJson($exception, $exception->getStatus());
+            return $response->withJson($exception, $exception->getStatus());
         else
-            return $c["response"]->withJson(new HttpError(500, $exception->getMessage()), 500);
+            return $response->withJson(new HttpError(500, $exception->getMessage()), 500);
     };
 };
 

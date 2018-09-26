@@ -13,7 +13,7 @@ use Slim\Http\Response;
 class CORS
 {
     /**
-     * Adds headers that allow CORS.
+     * Enables CORS.
      *
      * @param Request $request The request
      * @param Response $response The current response
@@ -23,6 +23,17 @@ class CORS
     public function __invoke(Request $request, Response $response, callable $next)
     {
         $response = $next($request, $response);
+        return self::withCORSHeaders($response);
+    }
+    
+    /**
+     * Adds headers that enable CORS to the given response.
+     *
+     * @param Response $response The current response
+     * @return Response The response with new headers
+     */
+    public static function withCORSHeaders(Response $response)
+    {
         return $response
             ->withHeader("Access-Control-Allow-Origin", "*")
             ->withHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept, Origin, Authorization")
