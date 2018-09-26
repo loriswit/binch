@@ -1,0 +1,12 @@
+{
+  "require": {
+    "ext-json": "*",
+    "slim/slim": "^3.10",
+    "gabordemooij/redbean": "^5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Binch\\": "src/Binch"
+    }
+  }
+}

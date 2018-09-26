@@ -1,0 +1,9 @@
+{
+  "debug": true,
+  "database": {
+    "host": "localhost",
+    "name": "binch",
+    "user": "root",
+    "pass": ""
+  }
+}
