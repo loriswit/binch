@@ -1,5 +1,8 @@
 {
   "debug": true,
+  "app": {
+    "host": "http://binch.local"
+  },
   "database": {
     "host": "localhost",
     "name": "binch",

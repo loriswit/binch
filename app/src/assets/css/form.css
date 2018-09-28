@@ -1,0 +1,25 @@
+.v-form {
+    padding-bottom: 60px;
+}
+
+.v-form h1 {
+    font-weight: normal;
+    margin: 20px;
+}
+
+.v-form h2 {
+    font-weight: normal;
+    margin: 10px 20px;
+}
+
+.v-form .v-text-field {
+    margin: 5px 20px;
+}
+
+.v-form .v-list {
+    padding: 0;
+}
+
+.v-list .v-text-field {
+    padding-top: 0;
+}
