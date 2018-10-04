@@ -63,12 +63,7 @@ export default {
     },
     computed: {
         enoughConsumers() {
-            let count = 0;
-            for (const name in this.consumers)
-                if (this.consumers[name])
-                    ++count;
-
-            return count > 1;
+            return Object.values(this.consumers).some(amount => amount > 0);
         }
     },
     props: {
