@@ -33,7 +33,7 @@
         </v-list-tile-action>
       </v-list-tile>
     </v-list>
-    <Buttons text="Pay"
+    <Buttons :text="'Pay ' + totalPrice.toFixed(2)"
              :valid="valid && enoughConsumers"
              @cancel="$emit('page', 'Group')"/>
   </v-form>
@@ -64,6 +64,9 @@ export default {
     computed: {
         enoughConsumers() {
             return Object.values(this.consumers).some(amount => amount > 0);
+        },
+        totalPrice() {
+            return this.price * Object.values(this.consumers).reduce((a, b) => a + b);
         }
     },
     props: {
