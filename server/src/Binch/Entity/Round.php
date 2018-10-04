@@ -31,6 +31,9 @@ class Round extends Entity
         $amount = 0;
         foreach($consumers as $consumer)
         {
+            if($consumer->bean->amount < 1)
+                continue;
+            
             $amount += $consumer->bean->amount;
             $consumer->bean->member->consumed += $price * $consumer->bean->amount;
             $round->bean->sharedConsumerList[] = $consumer->bean;
