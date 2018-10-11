@@ -1,64 +1,122 @@
 <template>
-  <v-form @submit.prevent="$emit('delete', rounds)">
-    <h1>Rounds history</h1>
-    <v-list>
-      <div v-for="(round, i) in rounds" :key="i">
+  <div>
+    <v-dialog v-if="selectedRound" v-model="dialog" width="500">
+      <v-card>
+        <v-card-title class="headline" primary-title>
+          Round payed by {{ selectedRound.payer }}
+        </v-card-title>
+        <v-card-text>
+          <v-list>
+            <v-list-tile v-for="(amount, name) in selectedRound.consumers" :key="name">
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  {{ name }}
+                </v-list-tile-title>
+              </v-list-tile-content>
+              <v-list-tile-action class="amount">
+                {{ amount }} &times; {{ (parseFloat(selectedRound.price) / 100).toFixed(2) }}
+              </v-list-tile-action>
+            </v-list-tile>
 
-        <v-divider v-if="i === 0 || !sameDay(round.date, rounds[i - 1].date)"></v-divider>
-        <v-subheader v-if="i === 0 || !sameDay(round.date, rounds[i - 1].date)">
-          {{ formatDate(round.date) }}
-        </v-subheader>
+            <v-divider></v-divider>
 
-        <v-list-tile class="round"
-                     :class="{ deleted: round.deleted }">
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title class="total">
+                  Total
+                </v-list-tile-title>
+              </v-list-tile-content>
+              <v-list-tile-action class="amount">
+                {{ selectedRound.drinksCount }}
+                &times; {{ (parseFloat(selectedRound.price) / 100).toFixed(2) }}
+                = {{ (parseFloat(selectedRound.totalPrice) / 100).toFixed(2) }}
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat @click="dialog = false">
+            Close
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
-          <v-list-tile-content>
-            <v-list-tile-title class="round-title">
-              {{ round.payer }} payed
-              {{ drinksCount(round) }} drinks at
-              {{ (parseFloat(round.price) / 100).toFixed(2) }}
-            </v-list-tile-title>
-            <v-list-tile-sub-title>
-              <v-icon class="time-icon">access_time</v-icon>
-              <span>{{ formatTime(round.date) }}</span>
-            </v-list-tile-sub-title>
+    <v-form @submit.prevent="$emit('delete', rounds)">
+      <h1>Rounds history</h1>
+      <v-list>
+        <div v-for="(round, i) in rounds" :key="i">
 
-          </v-list-tile-content>
-          <v-list-tile-action>
-            <v-btn icon @click="round.deleted = !round.deleted">
-              <v-icon :color="round.deleted ? 'red' : 'primary'">
-                {{ round.deleted ? "restore_from_trash" : "delete" }}
-              </v-icon>
-            </v-btn>
-          </v-list-tile-action>
+          <v-divider v-if="i === 0 || !sameDay(round.date, rounds[i - 1].date)"></v-divider>
+          <v-subheader v-if="i === 0 || !sameDay(round.date, rounds[i - 1].date)">
+            {{ formatDate(round.date) }}
+          </v-subheader>
 
-        </v-list-tile>
-      </div>
-    </v-list>
+          <v-list-tile class="round"
+                       :class="{ deleted: round.deleted }">
 
-    <Buttons text="Save"
-             valid
-             @cancel="$emit('page', 'Group')"/>
-  </v-form>
+            <v-list-tile-content>
+              <v-list-tile-title class="round-title">
+                {{ round.payer }} payed
+                {{ drinksCount(round) }} drinks at
+                {{ (parseFloat(round.price) / 100).toFixed(2) }}
+              </v-list-tile-title>
+              <v-list-tile-sub-title>
+                <v-icon class="time-icon">access_time</v-icon>
+                <span>{{ formatTime(round.date) }}</span>
+              </v-list-tile-sub-title>
+            </v-list-tile-content>
+
+            <v-list-tile-action>
+              <v-btn icon @click="showConsumers(round)">
+                <v-icon color="primary">info</v-icon>
+              </v-btn>
+            </v-list-tile-action>
+
+            <v-list-tile-action>
+              <v-btn icon @click="round.deleted = !round.deleted">
+                <v-icon :color="round.deleted ? 'red' : 'primary'">
+                  {{ round.deleted ? "restore_from_trash" : "delete" }}
+                </v-icon>
+              </v-btn>
+            </v-list-tile-action>
+
+          </v-list-tile>
+        </div>
+      </v-list>
+
+      <Buttons text="Save"
+               valid
+               @cancel="$emit('page', 'Group')"/>
+    </v-form>
+  </div>
 </template>
 
 <script>
 import "@/assets/css/form.css"
 import Buttons from "@/components/Buttons";
-import VListTileAction from "vuetify/src/components/VList/VListTileAction";
 
 export default {
     name: "Rounds",
-    components: {VListTileAction, Buttons},
+    components: {Buttons},
     data() {
         return {
-            rounds: []
+            rounds: [],
+            selectedRound: null,
+            dialog: false
         }
     },
     props: {
         groupID: String
     },
     methods: {
+        showConsumers(round) {
+            this.selectedRound = round;
+            this.selectedRound.drinksCount = this.drinksCount(round);
+            this.selectedRound.totalPrice = this.selectedRound.drinksCount * round.price;
+            this.dialog = true;
+        },
         drinksCount(round) {
             return Object.values(round.consumers).reduce((a, b) => a + b);
         },
@@ -98,6 +156,19 @@ h1 {
   font-weight: normal;
   font-size: 2em;
   margin: 20px;
+}
+
+.v-list {
+  padding: 0;
+}
+
+.total {
+  font-weight: bold;
+}
+
+.amount {
+  text-align: right;
+  font-weight: bold;
 }
 
 .round {
