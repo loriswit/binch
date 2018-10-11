@@ -16,4 +16,5 @@ $app->group("/group/{path:$pathRegex}", function()
     
     $this->get("/rounds", RoundController::class . ":get")->setName("rounds");
     $this->post("/rounds", RoundController::class . ":post")->add(new Auth());
+    $this->patch("/round/{date}", RoundController::class . ":patch")->add(new Auth());
 })->add(new GroupFetch());

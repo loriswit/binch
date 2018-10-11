@@ -6,19 +6,19 @@
           <v-subheader>
             <span class="list-heading">{{ group.name }}</span>
           </v-subheader>
-          <v-list-tile @click="onClick('Edit')">
+          <v-list-tile v-for="(item, i) in groupItems" :key="'group-' + i" @click="onClick(item.page)">
             <v-list-tile-action>
-              <v-icon>edit</v-icon>
+              <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>Edit group</v-list-tile-title>
+              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-divider></v-divider>
         </template>
 
         <v-subheader>Navigation</v-subheader>
-        <v-list-tile v-for="(item, i) in items" :key="i" @click="onClick(item.page)">
+        <v-list-tile v-for="(item, i) in mainItems" :key="'main-' + i" @click="onClick(item.page)">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -51,7 +51,7 @@ export default {
     data() {
         return {
             showDrawer: false,
-            items: [{
+            mainItems: [{
                 icon: "home",
                 title: "Home",
                 page: "Home"
@@ -63,6 +63,15 @@ export default {
                 icon: "group_add",
                 title: "New group",
                 page: "New"
+            }],
+            groupItems: [{
+                icon: "edit",
+                title: "Edit group",
+                page: "Edit"
+            }, {
+                icon: "history",
+                title: "Rounds history",
+                page: "Rounds"
             }]
         }
     },

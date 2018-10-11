@@ -29,7 +29,8 @@
                    @update="updateGroup"
                    @edit="editGroup"
                    @payer="setPayer"
-                   @pay="addRound"/>
+                   @pay="addRound"
+                   @delete="deleteRounds"/>
       </v-slide-y-transition>
     </v-content>
   </v-app>
@@ -48,10 +49,12 @@ import Auth from "@/components/Auth";
 
 import Storage from "@/storage"
 import Pay from "@/components/pages/Pay";
+import Rounds from "@/components/pages/Rounds";
 
 export default {
     name: "App",
     components: {
+        Rounds,
         Pay,
         Auth,
         New,
@@ -168,6 +171,26 @@ export default {
                 this.error = null;
                 this.updateGroup();
             }, response => this.onRequestFailed(response));
+        },
+        deleteRounds(rounds) {
+            this.updating = true;
+
+            for(const round of rounds)
+            {
+                const options = {
+                    method: "PATCH",
+                    url: "group/" + this.groupID + "/round/" + round.date,
+                    body: { deleted: round.deleted }
+                };
+
+                this.addAuthHeader(options);
+
+                this.$http(options).then(() => {
+                    this.updating = false;
+                    this.error = null;
+                    this.updateGroup();
+                }, response => this.onRequestFailed(response));
+            }
         },
         onRequestFailed(response) {
             this.updating = false;

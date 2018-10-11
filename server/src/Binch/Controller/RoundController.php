@@ -82,4 +82,32 @@ class RoundController extends Controller
         $url = $this->container->get("router")->pathFor("rounds", ["path" => $path]);
         return $response->withJson($round->export())->withRedirect($url, 201);
     }
+    
+    /**
+     * Deletes or restores a specific round.
+     *
+     * @param Request $request The PATCH request
+     * @param Response $response The current response
+     * @param String $path The group path
+     * @param String $date The round ISO date
+     * @return Response The updated response
+     * @throws HttpError If at least one parameter is not processable
+     */
+    public function patch(Request $request, Response $response, String $path, String $date)
+    {
+        $group = $request->getAttribute("group");
+        $params = new Params($request->getBody());
+        $params->validate([
+            "deleted" => ["required" => true, "type" => "bool"]
+        ]);
+        
+        $round = Round::find($date, $group);
+        if($round == null)
+            throw new HttpError(404);
+        
+        $round->setDeleted($params->deleted);
+        $round->save();
+        
+        return $response->withJson($round->export());
+    }
 }

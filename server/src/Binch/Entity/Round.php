@@ -27,6 +27,7 @@ class Round extends Entity
         $round->bean->group = $group->bean;
         $round->bean->price = $price;
         $round->bean->date = R::isoDateTime();
+        $round->bean->deleted = false;
         
         $amount = 0;
         foreach($consumers as $consumer)
@@ -52,6 +53,20 @@ class Round extends Entity
     }
     
     /**
+     * Finds and returns a round by its date and group.
+     *
+     * @param String $date The round ISO date
+     * @param Group $group The group entity
+     * @return Round|null The round with the given date if found, <code>null</code> otherwise.
+     */
+    public static function find(String $date, Group $group)
+    {
+        $round = new self();
+        $round->bean = R::findOne("round", "date = ? AND group_id = ?", [$date, $group->bean->id]);
+        return $round->bean == null ? null : $round;
+    }
+    
+    /**
      * Finds and returns all rounds for a given group.
      *
      * @param Group $group The group entity
@@ -71,6 +86,33 @@ class Round extends Entity
     }
     
     /**
+     * Marks the round as deleted or not.
+     *
+     * @param bool $deleted <code>true</code> to delete the round, <code>false</code> to restore
+     */
+    public function setDeleted(Bool $deleted)
+    {
+        if($this->bean->deleted == $deleted)
+            return;
+        
+        $this->bean->deleted = $deleted;
+        $multiplier = $deleted ? -1 : 1;
+        
+        $amount = 0;
+        foreach($this->bean->sharedConsumerList as $consumer)
+        {
+            $amount += $consumer->amount;
+            $consumer->member->consumed += $this->bean->price * $consumer->amount * $multiplier;
+            
+            // if one of the consumer is also the payer, make a copy
+            if($consumer->member->id == $this->bean->payer->id)
+                $this->bean->payer = $consumer->member;
+        }
+        
+        $this->bean->payer->paid += $amount * $this->bean->price * $multiplier;
+    }
+    
+    /**
      * Returns the round data as an array.
      *
      * @return array An array containing the round properties
@@ -80,11 +122,12 @@ class Round extends Entity
         $data = [
             "date" => $this->bean->date,
             "price" => intval($this->bean->price),
-            "payer" => $this->bean->payer->name
+            "payer" => $this->bean->payer->name,
+            "deleted" => boolval($this->bean->deleted)
         ];
         
         foreach($this->bean->sharedConsumerList as $consumer)
-            $data["consumers"][$consumer->member->name] = $consumer->amount;
+            $data["consumers"][$consumer->member->name] = intval($consumer->amount);
         
         return $data;
     }

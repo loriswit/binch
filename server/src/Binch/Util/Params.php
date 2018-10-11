@@ -61,7 +61,7 @@ class Params
                 switch($rule)
                 {
                     case "required":
-                        if($value && empty($this->params[$name]))
+                        if($value && !is_bool($this->params[$name]) && empty($this->params[$name]))
                             throw new HttpError(422, "Missing parameter '$name'");
                         break;
                     

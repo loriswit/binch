@@ -46,7 +46,7 @@ import Buttons from "@/components/Buttons";
 export default {
     name: "Pay",
     components: {Buttons},
-    data: function () {
+    data() {
         const consumers = {};
         if (this.group)
             for (const member of this.group.members)

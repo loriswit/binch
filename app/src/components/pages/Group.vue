@@ -95,6 +95,10 @@ h2 {
   margin: 20px;
 }
 
+.v-list {
+  padding: 0;
+}
+
 .member {
   border-bottom: 1px solid whitesmoke;
 }
