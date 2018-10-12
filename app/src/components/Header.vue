@@ -35,7 +35,8 @@
         {{ group ? group.name : "BinchApp" }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <span class="beta">beta</span>
+      <span v-if="showDev" class="badge dev">dev</span>
+      <span class="badge beta">beta</span>
       <v-scale-transition>
         <v-btn v-if="group" :disabled="updating" icon>
           <v-icon @click="$emit('update')">refresh</v-icon>
@@ -72,7 +73,8 @@ export default {
                 icon: "history",
                 title: "Rounds history",
                 page: "Rounds"
-            }]
+            }],
+            showDev: process.env.NODE_ENV === "development"
         }
     },
     props: {
@@ -94,7 +96,7 @@ export default {
 </script>
 
 <style scoped>
-.beta {
+.badge {
   font-weight: bold;
   font-size: 0.8em;
   text-transform: uppercase;
@@ -103,6 +105,14 @@ export default {
   margin-right: 10px;
   border-radius: 5px;
   vertical-align: top;
+}
+
+.beta {
+  background-color: indianred;
+}
+
+.dev {
+  background-color: mediumseagreen;
 }
 
 .list-heading {
