@@ -50,7 +50,7 @@
 
           <v-divider v-if="i === 0 || !sameDay(round.date, rounds[i - 1].date)"></v-divider>
           <v-subheader v-if="i === 0 || !sameDay(round.date, rounds[i - 1].date)">
-            {{ formatDate(round.date) }}
+            {{ round.date | moment("dddd, MMMM Do YYYY") }}
           </v-subheader>
 
           <v-list-tile class="round"
@@ -66,7 +66,7 @@
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 <v-icon class="time-icon">access_time</v-icon>
-                <span>{{ formatTime(round.date) }}</span>
+                <span>{{ round.date | moment("H:mm") }}</span>
               </v-list-tile-sub-title>
             </v-list-tile-content>
 
@@ -98,6 +98,7 @@
 <script>
 import "@/assets/css/form.css"
 import Buttons from "@/components/Buttons"
+import moment from "moment"
 
 export default {
     name: "Rounds",
@@ -123,27 +124,8 @@ export default {
             return Object.values(round.consumers).reduce((a, b) => a + b);
         },
         sameDay(date1, date2) {
-            const a = new Date(date1);
-            const b = new Date(date2);
-            return a.getFullYear() === b.getFullYear() &&
-                a.getMonth() === b.getMonth() &&
-                a.getDate() === b.getDate();
+            return moment(date1).isSame(date2, "day");
         },
-        formatDate(date) {
-            return new Date(date).toLocaleDateString("en-US", {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric"
-            });
-        },
-        formatTime(date) {
-            return new Date(date).toLocaleTimeString("en-US", {
-                hour12: false,
-                hour: "numeric",
-                minute: "numeric"
-            });
-        }
     },
     created() {
         this.$http.get("group/" + this.groupID + "/rounds").then(response => {

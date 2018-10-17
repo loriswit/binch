@@ -10,6 +10,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0-rc.1",
     "vue": "^2.5.17",
+    "vue-moment": "^4.0.0",
     "vue-resource": "^1.5.1",
     "vuetify": "^1.2.5"
   },
