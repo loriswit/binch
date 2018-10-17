@@ -58,9 +58,11 @@
 
             <v-list-tile-content>
               <v-list-tile-title class="round-title">
-                {{ round.payer }} payed
-                {{ drinksCount(round) }} drinks at
-                {{ (parseFloat(round.price) / 100).toFixed(2) }}
+                <span>{{ round.payer }}</span>
+                <v-icon class="arrow-icon">arrow_right</v-icon>
+                <span>
+                  {{ drinksCount(round) }} &times; {{ (parseFloat(round.price) / 100).toFixed(2) }}
+                </span>
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 <v-icon class="time-icon">access_time</v-icon>
@@ -95,7 +97,7 @@
 
 <script>
 import "@/assets/css/form.css"
-import Buttons from "@/components/Buttons";
+import Buttons from "@/components/Buttons"
 
 export default {
     name: "Rounds",
@@ -177,6 +179,11 @@ h1 {
 
 .v-subheader {
   justify-content: center;
+}
+
+.arrow-icon {
+  color: lightgrey;
+  line-height: 0.9;
 }
 
 .time-icon {
