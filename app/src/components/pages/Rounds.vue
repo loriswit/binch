@@ -58,9 +58,9 @@
 
             <v-list-tile-content>
               <v-list-tile-title class="round-title">
-                <span>{{ round.payer }}</span>
+                <span class="round-payer">{{ round.payer }}</span>
                 <v-icon class="arrow-icon">arrow_right</v-icon>
-                <span>
+                <span class="round-drinks">
                   {{ drinksCount(round) }} &times; {{ (parseFloat(round.price) / 100).toFixed(2) }}
                 </span>
               </v-list-tile-title>
@@ -86,6 +86,7 @@
 
           </v-list-tile>
         </div>
+        <v-divider></v-divider>
       </v-list>
 
       <Buttons text="Save"
@@ -182,7 +183,8 @@ button .v-icon {
   background-color: whitesmoke;
 }
 
-.deleted .round-title {
+.deleted .round-title .round-payer,
+.deleted .round-title .round-drinks {
   color: grey;
   text-decoration: line-through;
 }
