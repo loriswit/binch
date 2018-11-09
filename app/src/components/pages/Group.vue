@@ -1,6 +1,6 @@
 <template>
   <div id="group" v-if="group">
-    <h1>Who pays the round?</h1>
+    <h1>{{ $t("group.title") }}</h1>
     <v-list v-if="members.active.length" :two-line="valueType === 'delta'">
       <v-list-tile class="member"
                    v-for="(member, i) in members.active" :key="i"
@@ -30,9 +30,10 @@
     </v-list>
 
     <template v-if="members.new.length">
-      <h2>New members</h2>
+      <h2>{{ $t("group.new") }}</h2>
       <v-list>
-        <v-list-tile v-for="(member, i) in members.new" :key="i"
+        <v-list-tile class="member"
+                     v-for="(member, i) in members.new" :key="i"
                      @click="$emit('payer', member)">
           <v-list-tile-content>
             <v-list-tile-title>{{ member }}</v-list-tile-title>
@@ -46,11 +47,11 @@
 
     <v-bottom-nav color="primary" fixed :active.sync="valueType" :value="true">
       <v-btn color="primary" value="ratio">
-        <span>Ratio</span>
+        <span>{{ $t("group.ratio") }}</span>
         <span class="text-icon">%</span>
       </v-btn>
       <v-btn color="primary" value="delta">
-        <span>Balance</span>
+        <span>{{ $t("group.balance") }}</span>
         <span class="text-icon">+/-</span>
       </v-btn>
     </v-bottom-nav>

@@ -1,0 +1,91 @@
+{
+  "header": {
+    "group": {
+      "edit": "Modifier le groupe",
+      "rounds": "Historique des tournées"
+    },
+    "navigation": {
+      "title": "Navigation",
+      "home": "Accueil",
+      "goto": "Aller au groupe",
+      "new": "Nouveau groupe"
+    },
+    "language": {
+      "title": "Langue"
+    }
+  },
+  "home": {
+    "title": "Bienvenue sur BinchApp",
+    "goto": {
+      "label": "visiter la page d'un groupe",
+      "button": "Aller au groupe"
+    },
+    "new": {
+      "label": "ou créer un nouveau groupe",
+      "button": "Créer un groupe"
+    }
+  },
+  "goto": {
+    "title": "Aller au groupe",
+    "input": {
+      "label": "Identifiant du groupe"
+    }
+  },
+  "edit": {
+    "title": {
+      "edit": "Modifier le groupe",
+      "new": "Nouveau groupe"
+    },
+    "name": {
+      "label": "Nom du groupe"
+    },
+    "id": {
+      "label": "Identifiant du groupe"
+    },
+    "pass": {
+      "label": "Mot de passe",
+      "checkbox": "Changer le mot de passe"
+    },
+    "members": {
+      "title": "Membres",
+      "label": "Nom du membre",
+      "button": "Ajouter un membre"
+    }
+  },
+  "group": {
+    "title": "Qui paie la tournée ?",
+    "new": "Nouveau membres",
+    "ratio": "Ratio",
+    "balance": "Solde"
+  },
+  "pay": {
+    "title": "Tournée payée par",
+    "subtitle": "Consommateurs",
+    "price": {
+      "label": "Prix"
+    }
+  },
+  "rounds": {
+    "title": "Historique des tournées",
+    "dialog": {
+      "title": "Tournée payée par",
+      "total": "Total"
+    }
+  },
+  "auth": {
+    "title": "Entrer le mot de passe",
+    "wrong": "Mauvais mot de passe",
+    "pass": {
+      "label": "Mot de passe"
+    }
+  },
+  "button": {
+    "ok": "OK",
+    "go": "Aller",
+    "pay": "Payer",
+    "create": "Créer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "close": "Fermer"
+  }
+}

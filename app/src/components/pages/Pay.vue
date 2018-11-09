@@ -1,6 +1,6 @@
 <template>
   <v-form v-if="group" v-model="valid" @submit.prevent="submit()">
-    <h1>Round payed by {{ payer }}</h1>
+    <h1>{{ $t("pay.title") }} {{ payer }}</h1>
     <v-text-field class="price"
                   v-model="price"
                   :rules="[required, positive]"
@@ -9,10 +9,10 @@
                   outline
                   single-line
                   reverse
-                  suffix="Price"
+                  :suffix="$t('pay.price.label')"
     ></v-text-field>
 
-    <h2>Consumers</h2>
+    <h2>{{ $t("pay.subtitle") }}</h2>
     <v-list>
       <v-list-tile v-for="(member, i) in group.members" :key="i">
         <v-list-tile-content>
@@ -33,7 +33,7 @@
         </v-list-tile-action>
       </v-list-tile>
     </v-list>
-    <Buttons :text="'Pay ' + totalPrice.toFixed(2)"
+    <Buttons :text="$t('button.pay') + ' ' + totalPrice.toFixed(2)"
              :valid="valid && enoughConsumers"
              @cancel="$emit('page', 'Group')"/>
   </v-form>
@@ -98,7 +98,7 @@ export default {
 </script>
 
 <style scoped>
-.price {
+.v-text-field.price {
   width: 140px;
   margin: auto;
 }

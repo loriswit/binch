@@ -10,12 +10,12 @@
         </v-list-tile>
       </v-list>
     </div>
-    <h1>Welcome to BinchApp</h1>
+    <h1>{{ $t("home.title") }}</h1>
     <div id="buttons">
-      <label>visit a group page</label>
-      <v-btn @click="$emit('page', 'Goto')" color="primary" depressed>Go to group</v-btn>
-      <label>or create a new group</label>
-      <v-btn @click="$emit('page', 'New')" color="primary" depressed>Create group</v-btn>
+      <label>{{ $t("home.goto.label") }}</label>
+      <v-btn @click="$emit('page', 'Goto')" color="primary" depressed>{{ $t("home.goto.button") }}</v-btn>
+      <label>{{ $t("home.new.label") }}</label>
+      <v-btn @click="$emit('page', 'New')" color="primary" depressed>{{ $t("home.new.button") }}</v-btn>
     </div>
   </div>
 </template>

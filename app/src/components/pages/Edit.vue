@@ -1,20 +1,20 @@
 <template>
   <v-form v-model="valid" @submit.prevent="submit()">
-    <h1>{{ newGroup ? "New" : "Edit" }} group</h1>
+    <h1>{{ newGroup ? $t("edit.title.new") : $t("edit.title.edit") }}</h1>
     <v-text-field v-model="nameInput"
                   :rules="[required]"
                   :autofocus="newGroup"
-                  label="Group name"
+                  :label="$t('edit.name.label')"
     ></v-text-field>
     <v-text-field v-model="idInput"
                   :rules="[required, validID]"
                   :disabled="!newGroup"
-                  label="Group identifier"
+                  :label="$t('edit.id.label')"
     ></v-text-field>
     <v-checkbox class="new-pass"
                 v-if="!newGroup"
                 v-model="newPass"
-                label="Change password"
+                :label="$t('edit.pass.checkbox')"
     ></v-checkbox>
     <v-slide-y-transition>
       <v-text-field v-if="newGroup || newPass"
@@ -25,11 +25,11 @@
                     @click:append="showPass = !showPass"
                     :rules="[required]"
                     :autofocus="newPass"
-                    label="Password"
+                    :label="$t('edit.pass.label')"
       ></v-text-field>
     </v-slide-y-transition>
 
-    <h2>Members</h2>
+    <h2>{{ $t("edit.members.title") }}</h2>
     <v-list v-if="members.length">
       <v-slide-y-transition group>
         <v-list-tile v-for="(member, index) in members" :key="index">
@@ -38,7 +38,7 @@
                         :append-icon="deletable(index) ? 'delete' : ''"
                         @click:append="deleteMember(index)"
                         :autofocus="index > 1 && !members[index].length"
-                        placeholder="Member name"
+                        :placeholder="$t('edit.members.label')"
           ></v-text-field>
         </v-list-tile>
       </v-slide-y-transition>
@@ -47,11 +47,11 @@
     <v-layout>
       <v-btn @click="addMember()" flat>
         <v-icon>person_add</v-icon>
-        <span>Add member</span>
+        <span>{{ $t("edit.members.button") }}</span>
       </v-btn>
     </v-layout>
 
-    <Buttons :text="newGroup ? 'Create' : 'Save'"
+    <Buttons :text="newGroup ? $t('button.create') : $t('button.save')"
              :valid="valid"
              @cancel="$emit('page', newGroup ? 'Home' : 'Group')"/>
   </v-form>
@@ -153,6 +153,10 @@ export default {
   width: 100%;
   height: 50px;
   background: #eee;
+}
+
+.v-btn:hover {
+  position: fixed;
 }
 
 .v-btn .v-icon {

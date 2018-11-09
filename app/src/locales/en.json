@@ -1,0 +1,91 @@
+{
+  "header": {
+    "group": {
+      "edit": "Edit group",
+      "rounds": "Rounds history"
+    },
+    "navigation": {
+      "title": "Navigation",
+      "home": "Home",
+      "goto": "Go to group",
+      "new": "New group"
+    },
+    "language": {
+      "title": "Language"
+    }
+  },
+  "home": {
+    "title": "Welcome to BinchApp",
+    "goto": {
+      "label": "visit a group page",
+      "button": "Go to group"
+    },
+    "new": {
+      "label": "or create a new group",
+      "button": "Create group"
+    }
+  },
+  "goto": {
+    "title": "Go to group",
+    "input": {
+      "label": "Group identifier"
+    }
+  },
+  "edit": {
+    "title": {
+      "edit": "Edit group",
+      "new": "New group"
+    },
+    "name": {
+      "label": "Group name"
+    },
+    "id": {
+      "label": "Group identifier"
+    },
+    "pass": {
+      "label": "Password",
+      "checkbox": "Change password"
+    },
+    "members": {
+      "title": "Members",
+      "label": "Member name",
+      "button": "Add member"
+    }
+  },
+  "group": {
+    "title": "Who pays the round?",
+    "new": "New members",
+    "ratio": "Ratio",
+    "balance": "Balance"
+  },
+  "pay": {
+    "title": "Round payed by",
+    "subtitle": "Consumers",
+    "price": {
+      "label": "Price"
+    }
+  },
+  "rounds": {
+    "title": "Rounds history",
+    "dialog": {
+      "title": "Round payed by",
+      "total": "Total"
+    }
+  },
+  "auth": {
+    "title": "Enter password",
+    "wrong": "Wrong password",
+    "pass": {
+      "label": "Password"
+    }
+  },
+  "button": {
+    "ok": "OK",
+    "go": "Go",
+    "pay": "Pay",
+    "create": "Create",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close"
+  }
+}

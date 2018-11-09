@@ -3,11 +3,11 @@
     <v-card>
       <v-form v-model="valid" @submit.prevent="submit()">
         <v-card-title class="headline" primary-title>
-          Enter password
+          {{ $t("auth.title") }}
         </v-card-title>
         <v-card-text>
           <v-slide-y-transition>
-            <p class="wrong" v-if="wrong">Wrong password</p>
+            <p class="wrong" v-if="wrong">{{ $t("auth.wrong") }}</p>
           </v-slide-y-transition>
           <v-text-field v-model="input"
                         autocomplete="off"
@@ -17,16 +17,16 @@
                         @click:append="showPass = !showPass"
                         :rules="[required]"
                         autofocus
-                        label="Password"
+                        :label="$t('auth.pass.label')"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn flat @click="dialog = false">
-            Cancel
+            {{ $t("button.cancel") }}
           </v-btn>
           <v-btn :loading="loading" color="primary" flat type="submit">
-            Ok
+            {{ $t("button.ok") }}
           </v-btn>
         </v-card-actions>
       </v-form>
@@ -36,9 +36,9 @@
 
 <script>
 import "@/assets/css/form.css"
-import Buttons from "@/components/Buttons";
+import Buttons from "@/components/Buttons"
 import Storage from "@/storage"
-import Error from "@/components/Error";
+import Error from "@/components/Error"
 
 export default {
     name: "Auth",

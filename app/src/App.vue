@@ -175,12 +175,11 @@ export default {
         deleteRounds(rounds) {
             this.updating = true;
 
-            for(const round of rounds)
-            {
+            for (const round of rounds) {
                 const options = {
                     method: "PATCH",
                     url: "group/" + this.groupID + "/round/" + round.date,
-                    body: { deleted: round.deleted }
+                    body: {deleted: round.deleted}
                 };
 
                 this.addAuthHeader(options);
@@ -220,6 +219,12 @@ export default {
         const path = location.pathname.split("/")[1];
         this.setPage(path ? "Group" : localStorage.getItem("page"));
         this.setGroup(path || localStorage.getItem("group_id"));
+
+        const locale = localStorage.getItem("locale") || navigator.language;
+        if (Object.keys(this.$i18n.messages).includes(locale)) {
+            this.$i18n.locale = locale;
+            this.$moment.locale(locale);
+        }
     }
 }
 </script>

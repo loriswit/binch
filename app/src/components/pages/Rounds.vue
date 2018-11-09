@@ -3,7 +3,7 @@
     <v-dialog v-if="selectedRound" v-model="dialog" width="500">
       <v-card>
         <v-card-title class="headline" primary-title>
-          Round payed by {{ selectedRound.payer }}
+          {{ $t("rounds.dialog.title") }} {{ selectedRound.payer }}
         </v-card-title>
         <v-card-text>
           <v-list>
@@ -23,7 +23,7 @@
             <v-list-tile>
               <v-list-tile-content>
                 <v-list-tile-title class="total">
-                  Total
+                  {{ $t("rounds.dialog.total") }}
                 </v-list-tile-title>
               </v-list-tile-content>
               <v-list-tile-action class="amount">
@@ -37,20 +37,20 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn flat @click="dialog = false">
-            Close
+            {{ $t("button.close") }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <v-form @submit.prevent="$emit('delete', rounds)">
-      <h1>Rounds history</h1>
+      <h1>{{ $t("rounds.title") }}</h1>
       <v-list>
         <div v-for="(round, i) in rounds" :key="i">
 
           <v-divider v-if="i === 0 || !sameDay(round.date, rounds[i - 1].date)"></v-divider>
           <v-subheader v-if="i === 0 || !sameDay(round.date, rounds[i - 1].date)">
-            {{ round.date | moment("dddd, MMMM Do YYYY") }}
+            {{ round.date | moment("dddd, LL") }}
           </v-subheader>
 
           <v-list-tile class="round"
@@ -89,7 +89,7 @@
         <v-divider></v-divider>
       </v-list>
 
-      <Buttons text="Save"
+      <Buttons :text="$t('button.save')"
                valid
                @cancel="$emit('page', 'Group')"/>
     </v-form>

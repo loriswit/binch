@@ -1,12 +1,12 @@
 <template>
   <v-form v-model="valid" @submit.prevent="$emit('group', input)">
-    <h1>Go to group</h1>
+    <h1>{{ $t("goto.title") }}</h1>
     <v-text-field v-model="input"
                   :rules="[required, validID]"
-                  label="Group identifier"
+                  :label="$t('goto.input.label')"
                   autofocus
     ></v-text-field>
-    <Buttons text="Go" :valid="valid" @cancel="$emit('page', 'Home')"/>
+    <Buttons :text="$t('button.go')" :valid="valid" @cancel="$emit('page', 'Home')"/>
   </v-form>
 </template>
 

@@ -11,19 +11,30 @@
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+              <v-list-tile-title>{{ $t("header.group." + item.name) }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-divider></v-divider>
         </template>
 
-        <v-subheader>Navigation</v-subheader>
+        <v-subheader>{{ $t("header.navigation.title") }}</v-subheader>
         <v-list-tile v-for="(item, i) in mainItems" :key="'main-' + i" @click="onClick(item.page)">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            <v-list-tile-title>{{ $t("header.navigation." + item.name) }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-divider></v-divider>
+
+        <v-subheader>{{ $t("header.language.title") }}</v-subheader>
+        <v-list-tile v-for="(locale, i) in locales" :key="'locale-' + i" @click="setLocale(locale.id)">
+          <v-list-tile-action>
+            <v-icon>language</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ locale.name }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -54,25 +65,32 @@ export default {
             showDrawer: false,
             mainItems: [{
                 icon: "home",
-                title: "Home",
+                name: "home",
                 page: "Home"
             }, {
                 icon: "group",
-                title: "Go to group",
+                name: "goto",
                 page: "Goto"
             }, {
                 icon: "group_add",
-                title: "New group",
+                name: "new",
                 page: "New"
             }],
             groupItems: [{
                 icon: "edit",
-                title: "Edit group",
+                name: "edit",
                 page: "Edit"
             }, {
                 icon: "history",
-                title: "Rounds history",
+                name: "rounds",
                 page: "Rounds"
+            }],
+            locales: [{
+                name: "English",
+                id: "en"
+            }, {
+                name: "Français",
+                id: "fr"
             }],
             showDev: process.env.NODE_ENV === "development"
         }
@@ -85,6 +103,12 @@ export default {
         onClick(page) {
             this.showDrawer = false;
             this.$emit("page", page);
+        },
+        setLocale(locale) {
+            this.showDrawer = false;
+            this.$i18n.locale = locale;
+            this.$moment.locale(locale);
+            localStorage.setItem("locale", locale);
         }
     },
     watch: {
