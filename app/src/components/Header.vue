@@ -18,18 +18,19 @@
           <v-divider></v-divider>
         </template>
 
-        <v-subheader>{{ $t("header.recent.title") }}</v-subheader>
-        <v-list-tile v-for="(group, i) in recentGroups" :key="'recent-' + i"
-                     v-if="group.id !== groupID"
-                     @click="$emit('group', group.id)">
-          <v-list-tile-action>
-            <v-icon>group</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ group.name }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-divider></v-divider>
+        <template v-if="recentItems.length !== 0">
+          <v-subheader>{{ $t("header.recent.title") }}</v-subheader>
+          <v-list-tile v-for="(group, i) in recentItems" :key="'recent-' + i"
+                       @click="$emit('group', group.id)">
+            <v-list-tile-action>
+              <v-icon>group</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{ group.name }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-divider></v-divider>
+        </template>
 
         <v-subheader>{{ $t("header.navigation.title") }}</v-subheader>
         <v-list-tile v-for="(item, i) in mainItems" :key="'main-' + i"
@@ -116,6 +117,17 @@ export default {
         groupID: String,
         updating: Boolean,
         recentGroups: Array
+    },
+    computed: {
+        recentItems() {
+            if (!this.recentGroups)
+                return [];
+
+            if (!this.group)
+                return this.recentGroups;
+
+            return this.recentGroups.filter(e => e.id !== this.groupID);
+        }
     },
     methods: {
         onClick(page) {
