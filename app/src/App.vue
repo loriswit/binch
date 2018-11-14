@@ -1,7 +1,9 @@
 <template>
   <v-app>
     <Header :group="group"
+            :groupID="groupID"
             :updating="updating"
+            :recentGroups="recentGroups"
             @page="setPage"
             @group="setGroup"
             @update="updateGroup"/>
@@ -74,7 +76,8 @@ export default {
             payer: null,
             updating: false,
             needAuth: false,
-            error: null
+            error: null,
+            recentGroups: null
         }
     },
     methods: {
@@ -95,6 +98,19 @@ export default {
                 this.group = response.body;
                 this.updating = false;
                 this.error = null;
+
+                if (this.recentGroups)
+                    this.recentGroups = this.recentGroups.filter(e => e.id !== this.groupID);
+                else
+                    this.recentGroups = [];
+
+                this.recentGroups.unshift({
+                    id: this.groupID,
+                    name: this.group.name
+                });
+
+                localStorage.setItem("recent", JSON.stringify(this.recentGroups));
+
                 this.setPage("Group");
             }, response => {
                 if (response.status === 404) {
@@ -141,11 +157,11 @@ export default {
             if (id) {
                 this.groupID = id.toLowerCase();
                 history.pushState("", "", "/" + this.groupID);
-                localStorage.setItem("group_id", this.groupID);
+                localStorage.setItem("group", this.groupID);
             } else {
                 this.groupID = null;
                 history.pushState("", "", "/");
-                localStorage.removeItem("group_id");
+                localStorage.removeItem("group");
             }
 
             this.updateGroup();
@@ -216,15 +232,19 @@ export default {
         }
     },
     created() {
-        const path = location.pathname.split("/")[1];
-        this.setPage(path ? "Group" : localStorage.getItem("page"));
-        this.setGroup(path || localStorage.getItem("group_id"));
+        const recent = localStorage.getItem("recent");
+        if (recent)
+            this.recentGroups = JSON.parse(recent);
 
         const locale = localStorage.getItem("locale") || navigator.language;
         if (Object.keys(this.$i18n.messages).includes(locale)) {
             this.$i18n.locale = locale;
             this.$moment.locale(locale);
         }
+
+        const path = location.pathname.split("/")[1];
+        this.setPage(path ? "Group" : localStorage.getItem("page"));
+        this.setGroup(path || localStorage.getItem("group"));
     }
 }
 </script>

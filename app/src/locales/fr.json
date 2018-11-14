@@ -4,6 +4,9 @@
       "edit": "Modifier le groupe",
       "rounds": "Historique des tournées"
     },
+    "recent": {
+      "title": "Groupes récents"
+    },
     "navigation": {
       "title": "Navigation",
       "home": "Accueil",

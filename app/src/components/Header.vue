@@ -6,7 +6,8 @@
           <v-subheader>
             <span class="list-heading">{{ group.name }}</span>
           </v-subheader>
-          <v-list-tile v-for="(item, i) in groupItems" :key="'group-' + i" @click="onClick(item.page)">
+          <v-list-tile v-for="(item, i) in groupItems" :key="'group-' + i"
+                       @click="onClick(item.page)">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -17,8 +18,22 @@
           <v-divider></v-divider>
         </template>
 
+        <v-subheader>{{ $t("header.recent.title") }}</v-subheader>
+        <v-list-tile v-for="(group, i) in recentGroups" :key="'recent-' + i"
+                     v-if="group.id !== groupID"
+                     @click="$emit('group', group.id)">
+          <v-list-tile-action>
+            <v-icon>group</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ group.name }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-divider></v-divider>
+
         <v-subheader>{{ $t("header.navigation.title") }}</v-subheader>
-        <v-list-tile v-for="(item, i) in mainItems" :key="'main-' + i" @click="onClick(item.page)">
+        <v-list-tile v-for="(item, i) in mainItems" :key="'main-' + i"
+                     @click="onClick(item.page)">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -29,7 +44,8 @@
         <v-divider></v-divider>
 
         <v-subheader>{{ $t("header.language.title") }}</v-subheader>
-        <v-list-tile v-for="(locale, i) in locales" :key="'locale-' + i" @click="setLocale(locale.id)">
+        <v-list-tile v-for="(locale, i) in locales" :key="'locale-' + i"
+                     @click="setLocale(locale.id)">
           <v-list-tile-action>
             <v-icon>language</v-icon>
           </v-list-tile-action>
@@ -77,13 +93,13 @@ export default {
                 page: "New"
             }],
             groupItems: [{
-                icon: "edit",
-                name: "edit",
-                page: "Edit"
-            }, {
                 icon: "history",
                 name: "rounds",
                 page: "Rounds"
+            }, {
+                icon: "edit",
+                name: "edit",
+                page: "Edit"
             }],
             locales: [{
                 name: "English",
@@ -97,7 +113,9 @@ export default {
     },
     props: {
         group: Object,
-        updating: Boolean
+        groupID: String,
+        updating: Boolean,
+        recentGroups: Array
     },
     methods: {
         onClick(page) {

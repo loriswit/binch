@@ -4,6 +4,9 @@
       "edit": "Edit group",
       "rounds": "Rounds history"
     },
+    "recent": {
+      "title": "Recent groups"
+    },
     "navigation": {
       "title": "Navigation",
       "home": "Home",
