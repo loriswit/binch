@@ -87,5 +87,11 @@
     "save": "Enregistrer",
     "cancel": "Annuler",
     "close": "Fermer"
+  },
+  "validation": {
+    "required": "Ne peut pas être vide",
+    "id": "Ne peut contenir que des lettres, chiffres et tirets",
+    "member": "Ce nom est déjà pris",
+    "positive": "Doit être positif"
   }
 }

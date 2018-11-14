@@ -76,15 +76,15 @@ export default {
             passInput: "",
             members: this.group ? this.group.members.map(e => e.name) : ["", ""],
 
-            required: value => !!value || "Cannot be be empty",
-            validID: value => /^[a-zA-Z0-9-]*$/.test(value) || "Must only contain letters, numbers and dashes",
+            required: value => !!value || this.$t("validation.required"),
+            validID: value => /^[a-zA-Z0-9-]*$/.test(value) || this.$t("validation.id"),
             noDuplicate: value => {
                 let count = 0;
                 for (const member of this.members)
                     if (member === value)
                         ++count;
 
-                return count < 2 || "This name is already taken";
+                return count < 2 || this.$t("validation.member");
             }
         }
     },

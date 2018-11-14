@@ -57,8 +57,8 @@ export default {
             price: null,
             consumers: consumers,
 
-            required: value => !!value || "Cannot be be empty",
-            positive: value => value > 0 || "Must be positive",
+            required: value => !!value || this.$t("validation.required"),
+            positive: value => value >= 0.01 || this.$t("validation.positive"),
         }
     },
     computed: {

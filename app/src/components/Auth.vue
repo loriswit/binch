@@ -52,7 +52,7 @@ export default {
             loading: false,
             wrong: false,
 
-            required: value => !!value || "Cannot be be empty",
+            required: value => !!value || this.$t("validation.required"),
         }
     },
     props: {

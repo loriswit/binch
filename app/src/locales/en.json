@@ -87,5 +87,11 @@
     "save": "Save",
     "cancel": "Cancel",
     "close": "Close"
+  },
+  "validation": {
+    "required": "Cannot be be empty",
+    "id": "Must only contain letters, numbers and dashes",
+    "member": "This name is already taken",
+    "positive": "Must be positive"
   }
 }

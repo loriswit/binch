@@ -25,8 +25,8 @@ export default {
             valid: false,
             input: "",
 
-            required: value => !!value || "Cannot be be empty",
-            validID: value => /^[a-zA-Z0-9-]*$/.test(value) || "Must only contain letters, numbers and dashes"
+            required: value => !!value || this.$t("validation.required"),
+            validID: value => /^[a-zA-Z0-9-]*$/.test(value) || this.$t("validation.id")
         }
     },
     created() {
