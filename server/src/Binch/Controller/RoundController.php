@@ -67,14 +67,20 @@ class RoundController extends Controller
         $consumers = [];
         foreach($params->consumers as $name => $amount)
         {
+            if($amount == 0)
+                continue;
+            
             $member = Member::find($name, $group);
             if(!$member)
                 throw new HttpError(422, "Consumer '$name' does not exist");
             if($amount < 0)
-                throw new HttpError(422, "Consumer '$name' cannot drink a negative amount'");
+                throw new HttpError(422, "Consumer '$name' cannot drink a negative amount");
             
             $consumers[] = Consumer::create($member, $amount);
         }
+        
+        if(count($consumers) == 0)
+            throw new HttpError(422, "Round must have at least one consumer");
         
         $round = Round::create($group, $price, $payer, $consumers);
         $round->save();
