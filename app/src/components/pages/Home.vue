@@ -28,11 +28,6 @@ export default {
             recentGroups: null
         };
     },
-    methods: {
-        updateGroup() {
-
-        }
-    },
     created() {
         this.$emit("group", null);
     }
