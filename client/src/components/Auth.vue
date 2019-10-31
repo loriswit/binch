@@ -36,13 +36,10 @@
 
 <script>
 import "@/assets/css/form.css"
-import Buttons from "@/components/Buttons"
 import Storage from "@/storage"
-import Error from "@/components/Error"
 
 export default {
     name: "Auth",
-    components: {Error, Buttons},
     data() {
         return {
             dialog: false,
