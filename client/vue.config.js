@@ -1,4 +1,7 @@
 module.exports = {
+    publicPath: "./",
+    productionSourceMap: false,
+
     pluginOptions: {
         i18n: {
             locale: "en",
@@ -8,5 +11,7 @@ module.exports = {
         }
     },
 
-    productionSourceMap: false
+    transpileDependencies: [
+        "vuetify"
+    ],
 };

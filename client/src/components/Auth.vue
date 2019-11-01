@@ -12,7 +12,7 @@
           <v-text-field v-model="input"
                         autocomplete="off"
                         @change="wrong = false"
-                        :append-icon="showPass ? 'visibility_off' : 'visibility'"
+                        :append-icon="showPass ? 'mdi-eye-off' : 'mdi-eye'"
                         :type="showPass ? 'text' : 'password'"
                         @click:append="showPass = !showPass"
                         :rules="[required]"
@@ -22,10 +22,10 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click="dialog = false">
+          <v-btn text @click="dialog = false">
             {{ $t("button.cancel") }}
           </v-btn>
-          <v-btn :loading="loading" color="primary" flat type="submit">
+          <v-btn :loading="loading" color="primary" text type="submit">
             {{ $t("button.ok") }}
           </v-btn>
         </v-card-actions>

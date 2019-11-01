@@ -7,36 +7,36 @@
         </v-card-title>
         <v-card-text>
           <v-list>
-            <v-list-tile v-for="(amount, name) in selectedRound.consumers" :key="name">
-              <v-list-tile-content>
-                <v-list-tile-title>
+            <v-list-item v-for="(amount, name) in selectedRound.consumers" :key="name">
+              <v-list-item-content>
+                <v-list-item-title>
                   {{ name }}
-                </v-list-tile-title>
-              </v-list-tile-content>
-              <v-list-tile-action class="amount">
+                </v-list-item-title>
+              </v-list-item-content>
+              <v-list-item-action class="amount">
                 {{ amount }} &times; {{ (parseFloat(selectedRound.price) / 100).toFixed(2) }}
-              </v-list-tile-action>
-            </v-list-tile>
+              </v-list-item-action>
+            </v-list-item>
 
             <v-divider></v-divider>
 
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title class="total">
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title class="total">
                   {{ $t("rounds.dialog.total") }}
-                </v-list-tile-title>
-              </v-list-tile-content>
-              <v-list-tile-action class="amount">
+                </v-list-item-title>
+              </v-list-item-content>
+              <v-list-item-action class="amount">
                 {{ selectedRound.drinksCount }}
                 &times; {{ (parseFloat(selectedRound.price) / 100).toFixed(2) }}
                 = {{ (parseFloat(selectedRound.totalPrice) / 100).toFixed(2) }}
-              </v-list-tile-action>
-            </v-list-tile>
+              </v-list-item-action>
+            </v-list-item>
           </v-list>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click="dialog = false">
+          <v-btn text @click="dialog = false">
             {{ $t("button.close") }}
           </v-btn>
         </v-card-actions>
@@ -53,38 +53,37 @@
             {{ round.date | moment("dddd, LL") }}
           </v-subheader>
 
-          <v-list-tile class="round"
-                       :class="{ deleted: round.deleted }">
+          <v-list-item :class="{ deleted: round.deleted }">
 
-            <v-list-tile-content>
-              <v-list-tile-title class="round-title">
+            <v-list-item-content class="round">
+              <v-list-item-title class="round-title">
                 <span class="round-payer">{{ round.payer }}</span>
-                <v-icon class="arrow-icon">arrow_right</v-icon>
+                <v-icon class="arrow-icon">mdi-chevron-right</v-icon>
                 <span class="round-drinks">
                   {{ drinksCount(round) }} &times; {{ (parseFloat(round.price) / 100).toFixed(2) }}
                 </span>
-              </v-list-tile-title>
-              <v-list-tile-sub-title>
-                <v-icon class="time-icon">access_time</v-icon>
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                <v-icon class="time-icon">mdi-clock-outline</v-icon>
                 <span>{{ round.date | moment("H:mm") }}</span>
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
+              </v-list-item-subtitle>
+            </v-list-item-content>
 
-            <v-list-tile-action>
+            <v-list-item-action>
               <v-btn icon @click="showConsumers(round)">
-                <v-icon color="primary">info</v-icon>
+                <v-icon large color="primary">mdi-information</v-icon>
               </v-btn>
-            </v-list-tile-action>
+            </v-list-item-action>
 
-            <v-list-tile-action>
+            <v-list-item-action>
               <v-btn icon @click="round.deleted = !round.deleted">
-                <v-icon :color="round.deleted ? 'red' : 'primary'">
-                  {{ round.deleted ? "restore_from_trash" : "delete" }}
+                <v-icon large :color="round.deleted ? 'red' : 'primary'">
+                  mdi-delete{{ round.deleted ? "-restore" : "" }}
                 </v-icon>
               </v-btn>
-            </v-list-tile-action>
+            </v-list-item-action>
 
-          </v-list-tile>
+          </v-list-item>
         </div>
         <v-divider></v-divider>
       </v-list>
@@ -157,7 +156,7 @@ h1 {
 }
 
 .round {
-  padding-bottom: 10px;
+  padding: 0;
 }
 
 .v-subheader {
@@ -173,10 +172,6 @@ h1 {
   font-size: 0.9em;
   line-height: 1.5;
   margin-right: 4px;
-}
-
-button .v-icon {
-  font-size: 2.5em;
 }
 
 .deleted {

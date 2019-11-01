@@ -3,11 +3,11 @@
     <div v-if="recentGroups">
       <h2>Recent groups</h2>
       <v-list>
-        <v-list-tile v-for="(group, i) in groups" :key="i">
-          <v-list-tile-content>
-            <v-list-tile-title>{{ group.name }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+        <v-list-item v-for="(group, i) in groups" :key="i">
+          <v-list-item-content>
+            <v-list-item-title>{{ group.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </div>
     <h1>{{ $t("home.title") }}</h1>
@@ -55,10 +55,11 @@ h1 {
   margin-top: 30px;
 }
 
-.v-btn {
+#buttons .v-btn {
   font-size: 1.75em;
-  width: 270px;
+  width: 290px;
   height: 70px;
   border-radius: 0;
+  margin: 10px;
 }
 </style>

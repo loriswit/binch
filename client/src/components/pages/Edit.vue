@@ -32,21 +32,21 @@
     <h2>{{ $t("edit.members.title") }}</h2>
     <v-list v-if="members.length">
       <v-slide-y-transition group>
-        <v-list-tile v-for="(member, index) in members" :key="index">
+        <v-list-item v-for="(member, index) in members" :key="index">
           <v-text-field v-model="members[index]"
                         :rules="[required, noDuplicate]"
-                        :append-icon="deletable(index) ? 'delete' : ''"
+                        :append-icon="deletable(index) ? 'mdi-delete' : ''"
                         @click:append="deleteMember(index)"
-                        :autofocus="index > 1 && !members[index].length"
+                        :autofocus="index > 1 && !member.length"
                         :placeholder="$t('edit.members.label')"
           ></v-text-field>
-        </v-list-tile>
+        </v-list-item>
       </v-slide-y-transition>
     </v-list>
 
     <v-layout>
-      <v-btn @click="addMember()" flat>
-        <v-icon>person_add</v-icon>
+      <v-btn @click="addMember()" text height="50">
+        <v-icon>mdi-account-plus</v-icon>
         <span>{{ $t("edit.members.button") }}</span>
       </v-btn>
     </v-layout>
@@ -151,7 +151,6 @@ export default {
   bottom: 50px;
   left: 0;
   width: 100%;
-  height: 50px;
   background: #eee;
 }
 

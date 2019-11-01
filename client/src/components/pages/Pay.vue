@@ -6,7 +6,7 @@
                   :rules="[required, positive]"
                   type="number"
                   :autofocus="!price"
-                  outline
+                  outlined
                   single-line
                   reverse
                   :suffix="$t('pay.price.label')"
@@ -14,24 +14,24 @@
 
     <h2>{{ $t("pay.subtitle") }}</h2>
     <v-list>
-      <v-list-tile v-for="(member, i) in group.members" :key="i">
-        <v-list-tile-content>
-          <v-list-tile-title>{{ member.name }}</v-list-tile-title>
-        </v-list-tile-content>
+      <v-list-item v-for="(member, i) in group.members" :key="i">
+        <v-list-item-content>
+          <v-list-item-title>{{ member.name }}</v-list-item-title>
+        </v-list-item-content>
 
-        <v-list-tile-action class="amount-buttons">
+        <v-list-item-action class="amount-buttons">
           <v-btn icon ripple
                  @click="--consumers[member.name]"
                  :disabled="consumers[member.name] < 1">
-            <v-icon color="primary">remove_circle</v-icon>
+            <v-icon large color="primary">mdi-minus-circle</v-icon>
           </v-btn>
           <span class="amount">{{ consumers[member.name] }}</span>
           <v-btn icon ripple
                  @click="++consumers[member.name]">
-            <v-icon color="primary">add_circle</v-icon>
+            <v-icon large color="primary">mdi-plus-circle</v-icon>
           </v-btn>
-        </v-list-tile-action>
-      </v-list-tile>
+        </v-list-item-action>
+      </v-list-item>
     </v-list>
     <Buttons :text="$t('button.pay') + ' ' + totalPrice.toFixed(2)"
              :valid="valid && enoughConsumers"
@@ -106,14 +106,11 @@ export default {
 .amount-buttons {
   flex-direction: row;
   align-items: center;
-}
-
-.amount-buttons .v-icon {
-  font-size: 2.25em;
+  margin-top: 6px;
 }
 
 .amount {
-  font-size: 1.2em;
+  font-size: 1.5em;
   font-weight: bold;
   margin-left: 15px;
   margin-right: 15px;

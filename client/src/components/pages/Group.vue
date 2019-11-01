@@ -2,59 +2,59 @@
   <div id="group" v-if="group">
     <h1>{{ $t("group.title") }}</h1>
     <v-list v-if="members.active.length" :two-line="valueType === 'delta'">
-      <v-list-tile class="member"
+      <v-list-item class="member"
                    v-for="(member, i) in members.active" :key="i"
                    @click="$emit('payer', member.name)">
-        <v-list-tile-content class="tile-content">
-          <v-list-tile-title class="name">
+        <v-list-item-content class="tile-content">
+          <v-list-item-title class="name">
             {{ member.name }}
-          </v-list-tile-title>
-          <v-list-tile-sub-title v-if="valueType === 'delta'">
+          </v-list-item-title>
+          <v-list-item-subtitle v-if="valueType === 'delta'">
             <span class="paid">+{{ member.paid.toFixed(2) }}</span>
             <span class="consumed">-{{ member.consumed.toFixed(2) }}</span>
-          </v-list-tile-sub-title>
-        </v-list-tile-content>
+          </v-list-item-subtitle>
+        </v-list-item-content>
 
 
-        <v-list-tile-action class="percent" v-if="valueType === 'ratio'">
+        <v-list-item-action class="percent" v-if="valueType === 'ratio'">
           {{ member.percent.toFixed(1) }} %
-        </v-list-tile-action>
-        <v-list-tile-action class="percent" v-else>
+        </v-list-item-action>
+        <v-list-item-action class="percent" v-else>
           {{ (member.delta >= 0 ? "+ " : "- ") + Math.abs(member.delta).toFixed(2) }}
-        </v-list-tile-action>
+        </v-list-item-action>
 
-        <v-list-tile-action>
-          <v-icon>keyboard_arrow_right</v-icon>
-        </v-list-tile-action>
-      </v-list-tile>
+        <v-list-item-action>
+          <v-icon>mdi-chevron-right</v-icon>
+        </v-list-item-action>
+      </v-list-item>
     </v-list>
 
     <template v-if="members.new.length">
       <h2>{{ $t("group.new") }}</h2>
       <v-list>
-        <v-list-tile class="member"
+        <v-list-item class="member"
                      v-for="(member, i) in members.new" :key="i"
                      @click="$emit('payer', member)">
-          <v-list-tile-content>
-            <v-list-tile-title>{{ member }}</v-list-tile-title>
-          </v-list-tile-content>
-          <v-list-tile-action>
-            <v-icon>keyboard_arrow_right</v-icon>
-          </v-list-tile-action>
-        </v-list-tile>
+          <v-list-item-content>
+            <v-list-item-title>{{ member }}</v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-icon>mdi-chevron-right</v-icon>
+          </v-list-item-action>
+        </v-list-item>
       </v-list>
     </template>
 
-    <v-bottom-nav color="primary" fixed :active.sync="valueType" :value="true">
-      <v-btn color="primary" value="ratio">
+    <v-bottom-navigation background-color="primary" grow dark fixed v-model="valueType">
+      <v-btn depressed value="ratio">
         <span>{{ $t("group.ratio") }}</span>
-        <span class="text-icon">%</span>
+        <v-icon>mdi-percent</v-icon>
       </v-btn>
-      <v-btn color="primary" value="delta">
+      <v-btn depressed value="delta">
         <span>{{ $t("group.balance") }}</span>
-        <span class="text-icon">+/-</span>
+        <v-icon>mdi-scale-balance</v-icon>
       </v-btn>
-    </v-bottom-nav>
+    </v-bottom-navigation>
   </div>
 </template>
 
@@ -155,23 +155,24 @@ h2 {
 .member:nth-child(1) .name,
 .member:nth-child(1) .percent {
   color: red;
-  font-size: 1.6em;
+  font-size: 1.8em;
 }
 
 .member:nth-child(2) .name,
 .member:nth-child(2) .percent {
   color: brown;
-  font-size: 1.4em;
+  font-size: 1.6em;
 }
 
 .member:nth-child(3) .name,
 .member:nth-child(3) .percent {
   color: darkred;
-  font-size: 1.2em;
+  font-size: 1.4em;
 }
 
 .percent {
   font-weight: bold;
+  font-size: 1.15em;
 }
 
 .paid {
@@ -181,11 +182,5 @@ h2 {
 .consumed {
   color: indianred;
   margin-left: 10px;
-}
-
-.text-icon {
-  font-weight: bold;
-  font-size: 1.4em;
-  margin-bottom: 5px;
 }
 </style>

@@ -1,64 +1,64 @@
 <template>
   <header>
-    <v-navigation-drawer persistent v-model="showDrawer" clipped fixed app>
+    <v-navigation-drawer persistent v-model="showDrawer" clipped fixed app width="300">
       <v-list>
         <template v-if="group">
           <v-subheader>
             <span class="list-heading">{{ group.name }}</span>
           </v-subheader>
-          <v-list-tile v-for="(item, i) in groupItems" :key="'group-' + i"
+          <v-list-item v-for="(item, i) in groupItems" :key="'group-' + i"
                        @click="onClick(item.page)">
-            <v-list-tile-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ $t("header.group." + item.name) }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+            <v-list-item-action>
+              <v-icon>mdi-{{ item.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>{{ $t("header.group." + item.name) }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
           <v-divider></v-divider>
         </template>
 
         <template v-if="recentItems.length !== 0">
           <v-subheader>{{ $t("header.recent.title") }}</v-subheader>
-          <v-list-tile v-for="(group, i) in recentItems" :key="'recent-' + i"
+          <v-list-item v-for="(group, i) in recentItems" :key="'recent-' + i"
                        @click="$emit('group', group.id)">
-            <v-list-tile-action>
-              <v-icon>group</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ group.name }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+            <v-list-item-action>
+              <v-icon>mdi-account-group</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>{{ group.name }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
           <v-divider></v-divider>
         </template>
 
         <v-subheader>{{ $t("header.navigation.title") }}</v-subheader>
-        <v-list-tile v-for="(item, i) in mainItems" :key="'main-' + i"
+        <v-list-item v-for="(item, i) in mainItems" :key="'main-' + i"
                      @click="onClick(item.page)">
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ $t("header.navigation." + item.name) }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+          <v-list-item-action>
+            <v-icon>mdi-{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t("header.navigation." + item.name) }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-divider></v-divider>
 
         <v-subheader>{{ $t("header.language.title") }}</v-subheader>
-        <v-list-tile v-for="(locale, i) in locales" :key="'locale-' + i"
+        <v-list-item v-for="(locale, i) in locales" :key="'locale-' + i"
                      @click="setLocale(locale.id)">
-          <v-list-tile-action>
-            <v-icon>language</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ locale.name }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+          <v-list-item-action>
+            <v-icon>mdi-translate</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ locale.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar color="primary" clipped-left flat dark app>
-      <v-toolbar-side-icon @click.stop="showDrawer = !showDrawer" :disabled="updating"></v-toolbar-side-icon>
+    <v-app-bar color="primary" clipped-left flat dark>
+      <v-app-bar-nav-icon @click.stop="showDrawer = !showDrawer" :disabled="updating"></v-app-bar-nav-icon>
       <v-toolbar-title>
         {{ group ? group.name : "BinchApp" }}
       </v-toolbar-title>
@@ -67,10 +67,10 @@
       <span class="badge beta">beta</span>
       <v-scale-transition>
         <v-btn v-if="group" :disabled="updating" icon>
-          <v-icon @click="$emit('update')">refresh</v-icon>
+          <v-icon @click="$emit('update')">mdi-refresh</v-icon>
         </v-btn>
       </v-scale-transition>
-    </v-toolbar>
+    </v-app-bar>
   </header>
 </template>
 
@@ -85,11 +85,11 @@ export default {
                 name: "home",
                 page: "Home"
             }, {
-                icon: "group",
+                icon: "account-multiple",
                 name: "goto",
                 page: "Goto"
             }, {
-                icon: "group_add",
+                icon: "account-multiple-plus",
                 name: "new",
                 page: "New"
             }],
@@ -98,7 +98,7 @@ export default {
                 name: "rounds",
                 page: "Rounds"
             }, {
-                icon: "edit",
+                icon: "pencil",
                 name: "edit",
                 page: "Edit"
             }],
