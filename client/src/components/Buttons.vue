@@ -1,6 +1,6 @@
 <template>
   <div id="buttons">
-    <v-btn @click="$emit('cancel')" text>{{ $t("button.cancel") }}</v-btn>
+    <v-btn text @click="$router.go(-1)">{{ $t("button.cancel") }}</v-btn>
     <v-btn :disabled="!valid" depressed type="submit" color="primary">{{ text }}</v-btn>
   </div>
 </template>

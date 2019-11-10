@@ -2,12 +2,12 @@
   <header>
     <v-navigation-drawer persistent v-model="showDrawer" clipped fixed app width="300">
       <v-list>
-        <template v-if="group">
+        <template v-if="isGroupPage">
           <v-subheader>
             <span class="list-heading">{{ group.name }}</span>
           </v-subheader>
           <v-list-item v-for="(item, i) in groupItems" :key="'group-' + i"
-                       @click="onClick(item.page)">
+                       :to="'/group/' + $route.params.id + item.page">
             <v-list-item-action>
               <v-icon>mdi-{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -18,10 +18,10 @@
           <v-divider></v-divider>
         </template>
 
-        <template v-if="recentItems.length !== 0">
+        <template v-if="recent.length !== 0">
           <v-subheader>{{ $t("header.recent.title") }}</v-subheader>
-          <v-list-item v-for="(group, i) in recentItems" :key="'recent-' + i"
-                       @click="$emit('group', group.id)">
+          <v-list-item v-for="(group, i) in recent" :key="'recent-' + i"
+                       :to="'/group/' + group.id">
             <v-list-item-action>
               <v-icon>mdi-account-group</v-icon>
             </v-list-item-action>
@@ -34,7 +34,7 @@
 
         <v-subheader>{{ $t("header.navigation.title") }}</v-subheader>
         <v-list-item v-for="(item, i) in mainItems" :key="'main-' + i"
-                     @click="onClick(item.page)">
+                     :to="item.page">
           <v-list-item-action>
             <v-icon>mdi-{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -58,16 +58,19 @@
     </v-navigation-drawer>
 
     <v-app-bar color="primary" clipped-left flat dark>
-      <v-app-bar-nav-icon @click.stop="showDrawer = !showDrawer" :disabled="updating"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="showDrawer = !showDrawer" :disabled="loading"></v-app-bar-nav-icon>
       <v-toolbar-title>
-        {{ group ? group.name : "BinchApp" }}
+        {{ isGroupPage ? group.name : "BinchApp" }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <span v-if="showDev" class="badge dev">dev</span>
       <span class="badge beta">beta</span>
       <v-scale-transition>
-        <v-btn v-if="group" :disabled="updating" icon>
-          <v-icon @click="$emit('update')">mdi-refresh</v-icon>
+        <v-btn v-if="$route.params.id && refresh"
+               @click="refresh"
+               :disabled="loading"
+               icon>
+          <v-icon>mdi-refresh</v-icon>
         </v-btn>
       </v-scale-transition>
     </v-app-bar>
@@ -75,65 +78,51 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
     name: "Header",
-    data() {
-        return {
-            showDrawer: false,
-            mainItems: [{
-                icon: "home",
-                name: "home",
-                page: "Home"
-            }, {
-                icon: "account-multiple",
-                name: "goto",
-                page: "Goto"
-            }, {
-                icon: "account-multiple-plus",
-                name: "new",
-                page: "New"
-            }],
-            groupItems: [{
-                icon: "history",
-                name: "rounds",
-                page: "Rounds"
-            }, {
-                icon: "pencil",
-                name: "edit",
-                page: "Edit"
-            }],
-            locales: [{
-                name: "English",
-                id: "en"
-            }, {
-                name: "Français",
-                id: "fr"
-            }],
-            showDev: process.env.NODE_ENV === "development"
-        }
-    },
-    props: {
-        group: Object,
-        groupID: String,
-        updating: Boolean,
-        recentGroups: Array
-    },
+    data: () => ({
+        showDrawer: false,
+        mainItems: [{
+            icon: "home",
+            name: "home",
+            page: "/"
+        }, {
+            icon: "account-multiple",
+            name: "goto",
+            page: "/join"
+        }, {
+            icon: "account-multiple-plus",
+            name: "new",
+            page: "/new"
+        }],
+        groupItems: [{
+            icon: "history",
+            name: "rounds",
+            page: "/rounds"
+        }, {
+            icon: "pencil",
+            name: "edit",
+            page: "/edit"
+        }],
+        locales: [{
+            name: "English",
+            id: "en"
+        }, {
+            name: "Français",
+            id: "fr"
+        }],
+        showDev: process.env.NODE_ENV === "development"
+    }),
     computed: {
-        recentItems() {
-            if (!this.recentGroups)
-                return [];
+        ...mapState(["group", "recent", "loading", "refresh"]),
 
-            if (!this.group)
-                return this.recentGroups;
-
-            return this.recentGroups.filter(e => e.id !== this.groupID);
+        isGroupPage() {
+            return this.$route.params.id && this.group;
         }
     },
     methods: {
-        onClick(page) {
-            this.showDrawer = false;
-            this.$emit("page", page);
-        },
         setLocale(locale) {
             this.showDrawer = false;
             this.$i18n.locale = locale;
@@ -142,10 +131,10 @@ export default {
         }
     },
     watch: {
-        updating() {
+        loading() {
             this.showDrawer = false;
         }
-    }
+    },
 }
 </script>
 
