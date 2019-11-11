@@ -70,6 +70,8 @@
   },
   "rounds": {
     "title": "Historique des tournées",
+    "filter": "Rechercher...",
+    "none": "Aucune tournée trouvée",
     "dialog": {
       "title": "Tournée payée par",
       "total": "Total"

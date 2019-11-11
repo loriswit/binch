@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapGetters, mapState} from "vuex";
 
 export default {
     name: "Header",
@@ -116,7 +116,8 @@ export default {
         showDev: process.env.NODE_ENV === "development"
     }),
     computed: {
-        ...mapState(["group", "recent", "loading", "refresh"]),
+        ...mapState(["group", "recent", "refresh"]),
+        ...mapGetters(["loading"]),
 
         isGroupPage() {
             return this.$route.params.id && this.group;

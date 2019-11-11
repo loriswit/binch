@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-dialog v-if="selectedRound" v-model="dialog" width="500">
-      <v-card>
+    <v-dialog v-model="dialog" width="500">
+      <v-card v-if="selectedRound">
         <v-card-title class="headline" primary-title>
           {{ $t("rounds.dialog.title") }} {{ selectedRound.payer }}
         </v-card-title>
@@ -44,12 +44,42 @@
     </v-dialog>
 
     <v-form @submit.prevent="submit">
-      <h1>{{ $t("rounds.title") }}</h1>
-      <v-list>
-        <div v-for="(round, i) in reversedRounds" :key="i">
+      <header>
+        <h1>{{ $t("rounds.title") }}</h1>
 
-          <v-divider v-if="i === 0 || !sameDay(round.date, reversedRounds[i - 1].date)"></v-divider>
-          <v-subheader v-if="i === 0 || !sameDay(round.date, reversedRounds[i - 1].date)">
+        <v-menu
+          v-model="filterMenu"
+          :close-on-content-click="false"
+          transition="slide-x-transition"
+          offset-x
+          left
+          nudge-left="20"
+          nudge-width="200"
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn color="primary" depressed fab small v-on="on">
+              <v-icon>mdi-magnify</v-icon>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-text-field
+              ref="input"
+              v-model="filter"
+              :placeholder="$t('rounds.filter')"
+              hide-details
+              dense
+              outlined
+              clearable
+            />
+          </v-card>
+        </v-menu>
+      </header>
+
+      <v-list v-infinite-scroll="loadMore">
+        <div v-for="(round, i) in visibleRounds" :key="i">
+
+          <v-divider v-if="i === 0 || !sameDay(round.date, visibleRounds[i - 1].date)"/>
+          <v-subheader v-if="i === 0 || !sameDay(round.date, visibleRounds[i - 1].date)">
             {{ round.date | moment("dddd, LL") }}
           </v-subheader>
 
@@ -76,7 +106,7 @@
             </v-list-item-action>
 
             <v-list-item-action>
-              <v-btn icon @click="swapDeleted(rounds.length - i - 1)">
+              <v-btn icon @click="swapDeleted(i)">
                 <v-icon large :color="round.deleted ? 'red' : 'primary'">
                   mdi-delete{{ round.deleted ? "-restore" : "" }}
                 </v-icon>
@@ -88,6 +118,12 @@
         <v-divider></v-divider>
       </v-list>
 
+      <h2 v-if="!loading && !filteredRounds.length">{{ $t("rounds.none") }}</h2>
+
+      <div class="progress" v-if="visibleRounds.length < filteredRounds.length">
+        <v-progress-circular color="primary" indeterminate/>
+      </div>
+
       <Buttons :text="$t('button.save')" :valid="changedRounds.some(x => x)"/>
     </v-form>
   </div>
@@ -96,8 +132,7 @@
 <script>
 import "@/assets/css/form.css"
 import Buttons from "@/components/Buttons"
-import moment from "moment"
-import {mapActions, mapState, mapMutations} from "vuex";
+import {mapActions, mapState, mapMutations, mapGetters} from "vuex";
 
 export default {
     name: "Rounds",
@@ -105,13 +140,28 @@ export default {
     data: () => ({
         changedRounds: [],
         selectedRound: null,
-        dialog: false
+        dialog: false,
+        amountDisplayed: 0,
+
+        filter: null,
+        filterMenu: false
     }),
     computed: {
         ...mapState(["rounds", "refresh"]),
+        ...mapGetters(["loading"]),
 
-        reversedRounds() {
-            return this.rounds.slice().reverse();
+        filteredRounds() {
+            if (!this.filter)
+                return this.rounds;
+
+            return this.rounds.filter(round =>
+                this.normalize(this.filter).split(/\b\s+/).every(word =>
+                    this.normalize(round.payer).includes(word) ||
+                    this.normalize(this.$moment(round.date).format("dddd LL")).includes(word)
+                ));
+        },
+        visibleRounds() {
+            return this.filteredRounds.slice(0, this.amountDisplayed);
         }
     },
     methods: {
@@ -141,17 +191,35 @@ export default {
             return Object.values(round.consumers).reduce((a, b) => a + b);
         },
         sameDay(date1, date2) {
-            return moment(date1).isSame(date2, "day");
+            return this.$moment(date1).isSame(date2, "day");
         },
         swapDeleted(index) {
             this.rounds[index].deleted = !this.rounds[index].deleted;
             this.changedRounds[index] = !this.changedRounds[index];
+        },
+        loadMore() {
+            this.amountDisplayed += 10;
+            if (this.filteredRounds.length > 0 && this.filteredRounds.length < this.amountDisplayed)
+                this.amountDisplayed = this.filteredRounds.length;
+        },
+        normalize(str) {
+            return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        },
+    },
+    watch: {
+        filterMenu(value) {
+            if (value)
+                setTimeout(() => this.$refs.input.focus(), 100);
+        },
+        filter() {
+            this.amountDisplayed = 0;
+            this.loadMore();
         }
     },
     created() {
         this.onRefresh(() => {
-            this.fetchGroup(this.$route.params.id);
             this.fetchRounds(this.$route.params.id);
+            this.fetchGroup(this.$route.params.id);
         });
 
         this.refresh();
@@ -160,10 +228,19 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  font-weight: normal;
-  font-size: 2em;
+.v-form header {
   margin: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+h1 {
+  margin: 0;
+}
+
+.headline {
+  word-break: normal;
 }
 
 .v-list {
@@ -206,6 +283,12 @@ h1 {
 .deleted .round-title .round-drinks {
   color: grey;
   text-decoration: line-through;
+}
+
+.progress {
+  display: block;
+  margin: 20px;
+  text-align: center;
 }
 
 </style>

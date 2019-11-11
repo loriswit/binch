@@ -97,7 +97,10 @@ export default {
     watch: {
         nameInput(value) {
             if (this.newGroup)
-                this.idInput = value.toLowerCase().trim().replace(/[ _]/g, "-").replace(/[^a-zA-Z0-9-]/g, "");
+                this.idInput = value
+                    .toLowerCase().trim().replace(/[ _]/g, "-")
+                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                    .replace(/[^a-zA-Z0-9-]/g, "");
         },
         idInput(value) {
             this.idInput = value.toLowerCase();

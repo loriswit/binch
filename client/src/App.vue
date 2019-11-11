@@ -25,7 +25,7 @@ import Header from "@/components/Header"
 import Loading from "@/components/Loading"
 import Auth from "@/components/Auth";
 
-import {mapMutations, mapState} from "vuex"
+import {mapGetters, mapMutations, mapState} from "vuex"
 
 export default {
     name: "App",
@@ -35,7 +35,8 @@ export default {
         Loading,
     },
     computed: {
-        ...mapState(["locale", "loading", "error"])
+        ...mapState(["locale", "error"]),
+        ...mapGetters(["loading"])
     },
     methods: {
         ...mapMutations(["clearError", "initStore"])

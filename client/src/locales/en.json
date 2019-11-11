@@ -70,6 +70,8 @@
   },
   "rounds": {
     "title": "Rounds history",
+    "filter": "Search...",
+    "none": "No rounds found",
     "dialog": {
       "title": "Round payed by",
       "total": "Total"

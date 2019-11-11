@@ -1,3 +1,5 @@
+const webpack = require("webpack");
+
 module.exports = {
     productionSourceMap: false,
 
@@ -13,4 +15,10 @@ module.exports = {
     transpileDependencies: [
         "vuetify"
     ],
+
+    configureWebpack: {
+        plugins: [
+            new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /fr/),
+        ]
+    },
 };

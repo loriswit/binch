@@ -11,7 +11,7 @@ export default new Vuex.Store({
 
         locale: null,
 
-        loading: false,
+        runningRequests: 0,
         error: null,
 
         tokens: {},
@@ -22,6 +22,9 @@ export default new Vuex.Store({
 
         // function to run on refresh
         refresh: null
+    },
+    getters: {
+        loading: state => state.runningRequests > 0
     },
     mutations: {
         initStore(state) {
@@ -88,7 +91,8 @@ export default new Vuex.Store({
         },
 
         async fetchRounds(context, id) {
-            context.state.rounds = await http.get(context, "group/" + id + "/rounds")
+            context.state.rounds = await http.get(context, "group/" + id + "/rounds");
+            context.state.rounds.reverse();
         },
 
         async postRound(context, {id, rounds}) {
@@ -118,7 +122,7 @@ const http = {
     },
 
     async sendRequest(context, options, auth = null) {
-        context.state.loading = true;
+        ++context.state.runningRequests;
 
         if (auth) {
             const token = context.state.tokens[auth];
@@ -150,7 +154,7 @@ const http = {
             throw response.status;
 
         } finally {
-            context.state.loading = false;
+            --context.state.runningRequests;
         }
     }
 };
