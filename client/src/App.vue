@@ -10,7 +10,9 @@
       <Auth/>
 
       <v-slide-y-transition>
-        <v-alert v-if="error" type="error">{{ error }}</v-alert>
+        <v-alert v-if="error" type="error" dense tile>
+          {{ $t("error." + error.msg, [error.value]) }}
+        </v-alert>
       </v-slide-y-transition>
 
       <v-slide-y-transition mode="out-in">

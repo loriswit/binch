@@ -62,7 +62,7 @@
     "balance": "Balance"
   },
   "pay": {
-    "title": "Round payed by",
+    "title": "Round payed by {0}",
     "subtitle": "Consumers",
     "price": {
       "label": "Price"
@@ -73,7 +73,7 @@
     "filter": "Search...",
     "none": "No rounds found",
     "dialog": {
-      "title": "Round payed by",
+      "title": "Round payed by {0}",
       "total": "Total"
     }
   },
@@ -94,9 +94,15 @@
     "close": "Close"
   },
   "validation": {
-    "required": "Cannot be be empty",
+    "required": "Cannot be empty",
     "id": "Must only contain letters, numbers and dashes",
     "member": "This name is already taken",
     "positive": "Must be positive"
+  },
+  "error": {
+    "default": "Request failed: {0}",
+    "disconnected": "Connection to server failed",
+    "offline": "Not connected to internet",
+    "group": "The group '{0}' does not exist"
   }
 }

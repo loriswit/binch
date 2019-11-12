@@ -1,6 +1,6 @@
 <template>
   <v-form v-model="valid" @submit.prevent="submit">
-    <h1>{{ $t("pay.title") }} {{ $route.params.payer }}</h1>
+    <h1>{{ $t("pay.title", [$route.params.payer]) }}</h1>
     <v-text-field class="price"
                   v-model="price"
                   :rules="[required, positive]"

@@ -62,7 +62,7 @@
     "balance": "Solde"
   },
   "pay": {
-    "title": "Tournée payée par",
+    "title": "Tournée payée par {0}",
     "subtitle": "Consommateurs",
     "price": {
       "label": "Prix"
@@ -73,7 +73,7 @@
     "filter": "Rechercher...",
     "none": "Aucune tournée trouvée",
     "dialog": {
-      "title": "Tournée payée par",
+      "title": "Tournée payée par {0}",
       "total": "Total"
     }
   },
@@ -98,5 +98,11 @@
     "id": "Ne peut contenir que des lettres, chiffres et tirets",
     "member": "Ce nom est déjà pris",
     "positive": "Doit être positif"
+  },
+  "error": {
+    "default": "Requête échouée : {0}",
+    "disconnected": "Connexion au serveur échouée",
+    "offline": "Aucune connexion internet",
+    "group": "Le groupe \"{0}\" n'existe pas"
   }
 }

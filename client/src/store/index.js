@@ -84,7 +84,7 @@ export default new Vuex.Store({
 
             } catch (error) {
                 if (error === 404)
-                    context.state.error = "The group '" + id + "' does not exist";
+                    context.state.error = {msg: "group", value: id};
 
                 throw error;
             }
@@ -139,17 +139,17 @@ const http = {
             scrollTo(0, 0);
 
             if (response.status === 0)
-                context.state.error = navigator.onLine ?
-                    "Connexion to server failed." :
-                    "Not connected to internet.";
+                context.state.error = {msg: navigator.onLine ? "disconnected" : "offline"};
 
             else if (response.status === 401 || response.status === 403) {
                 context.state.auth.required = true;
                 context.state.auth.next.push(() => this.sendRequest(context, options, auth));
 
             } else
-                context.state.error = "Request failed: "
-                    + (response.body.message || response.body.error);
+                context.state.error = {
+                    msg: "default",
+                    value: (response.body.message || response.body.error)
+                };
 
             throw response.status;
 

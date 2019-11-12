@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" width="500">
       <v-card v-if="selectedRound">
         <v-card-title class="headline" primary-title>
-          {{ $t("rounds.dialog.title") }} {{ selectedRound.payer }}
+          {{ $t("rounds.dialog.title", [selectedRound.payer]) }}
         </v-card-title>
         <v-card-text>
           <v-list>
