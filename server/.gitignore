@@ -1,2 +1,14 @@
-.idea/
-vendor/
+.DS_Store
+vendor
+
+# Local env file
+.env
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*

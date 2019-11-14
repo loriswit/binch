@@ -9,22 +9,23 @@ use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-define("CONFIG", json_decode(file_get_contents("../config.json"), true));
+$dotenv = Dotenv\Dotenv::create(__DIR__ . "/../");
+$dotenv->safeLoad();
 
-error_reporting(CONFIG["debug"] ? E_ALL : 0);
+DEFINE("DEBUG", strcasecmp(getenv("APP_DEBUG"), "true") == 0);
+error_reporting(DEBUG ? E_ALL : 0);
 
 // init database
-$db = CONFIG["database"];
-$host = $db["host"];
-$name = $db["name"];
+$host = getenv("DB_HOST");
+$name = getenv("DB_NAME");
 
-R::setup("mysql:host=$host;dbname=$name", $db["user"], $db["pass"]);
+R::setup("mysql:host=$host;dbname=$name", getenv("DB_USER"), getenv("DB_PASS"));
 R::setAutoResolve(true);
 
 // init slim container
 $container = new Container();
 
-$container["settings"]["displayErrorDetails"] = CONFIG["debug"];
+$container["settings"]["displayErrorDetails"] = DEBUG;
 $container["settings"]["groupPathRegex"] = "[a-zA-Z0-9-]+";
 
 $container["errorHandler"] = function($c)

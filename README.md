@@ -21,10 +21,6 @@ In production, run the command `npm run build`. The web app will be created in t
 
 ## Server
 
-First, run `composer install` to install the dependencies. Then, edit the `config.json` file:
-
-- `debug`: set to true when developing.
-- `client`: set which requests origin to allow.
-- `database`: set the database host, name and user.
+First, run `composer install` to install the dependencies. Then, define the required environment variables by copying the `.env.example` file to `.env` and editing it.
 
 You must then setup your web server so that it forwards all requests to `public/index.php`.

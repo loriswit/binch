@@ -35,7 +35,7 @@ class CORS
     public static function withCORSHeaders(Response $response)
     {
         return $response
-            ->withHeader("Access-Control-Allow-Origin", CONFIG["client"]["origin"])
+            ->withHeader("Access-Control-Allow-Origin", getenv("ALLOW_ORIGIN"))
             ->withHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept, Origin, Authorization")
             ->withHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
     }
