@@ -87,7 +87,7 @@ export default {
         mainItems: [{
             icon: "home",
             name: "home",
-            page: "/"
+            page: "/home"
         }, {
             icon: "account-multiple",
             name: "goto",

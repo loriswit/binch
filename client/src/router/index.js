@@ -7,11 +7,26 @@ import Edit from "@/views/Edit"
 import Rounds from "@/views/Rounds"
 import Pay from "@/views/Pay"
 import New from "@/views/New";
+import store from "@/store"
 
 Vue.use(VueRouter);
 
 const routes = [
-    {path: "/", component: Home},
+    {
+        path: "/",
+        component: Home,
+        beforeEnter: (to, from, next) => {
+            if (store.state.recent.length)
+                next({
+                    path: "/group/" + store.state.recent[0].id,
+                    replace: true
+                });
+            else
+                next();
+        }
+    },
+
+    {path: "/home", component: Home},
     {path: "/new", component: New},
     {path: "/join", component: Goto},
 

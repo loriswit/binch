@@ -41,7 +41,7 @@ export default {
         ...mapGetters(["loading"])
     },
     methods: {
-        ...mapMutations(["clearError", "initStore"])
+        ...mapMutations(["clearError"])
     },
     watch: {
         "$route"() {
@@ -49,8 +49,6 @@ export default {
         }
     },
     created() {
-        this.initStore();
-
         if (Object.keys(this.$i18n.messages).includes(this.locale)) {
             this.$i18n.locale = this.locale;
             this.$moment.locale(this.locale);

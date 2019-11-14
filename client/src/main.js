@@ -19,6 +19,8 @@ Vue.use(infiniteScroll);
 Vue.config.productionTip = false;
 Vue.http.options.root = process.env.VUE_APP_API_ROOT;
 
+store.commit("initStore");
+
 new Vue({
     i18n,
     vuetify,
