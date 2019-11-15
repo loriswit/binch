@@ -68,7 +68,7 @@ export default {
     },
     methods: {
         ...mapActions(["fetchGroup", "postRound"]),
-        ...mapMutations(["onRefresh"]),
+        ...mapMutations(["onRefresh", "setTitle"]),
 
         async submit() {
             const data = {
@@ -83,6 +83,12 @@ export default {
         }
     },
     created() {
+        this.setTitle(this.$i18n.t("pay.title", [this.$route.params.payer]));
+
+        const price = localStorage.getItem("price");
+        if (price)
+            this.price = (parseFloat(price) / 100).toFixed(2);
+
         this.onRefresh(async () => {
             await this.fetchGroup(this.$route.params.id);
             this.consumers = this.group.members
@@ -90,14 +96,10 @@ export default {
         });
 
         this.refresh();
-
-        const price = localStorage.getItem("price");
-        if (price)
-            this.price = (parseFloat(price) / 100).toFixed(2);
     },
     beforeCreate() {
         scrollTo(0, 0);
-    }
+    },
 }
 </script>
 

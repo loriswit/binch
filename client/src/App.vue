@@ -37,15 +37,18 @@ export default {
         Loading,
     },
     computed: {
-        ...mapState(["locale", "error"]),
+        ...mapState(["locale", "error", "title"]),
         ...mapGetters(["loading"])
     },
     methods: {
         ...mapMutations(["clearError"])
     },
     watch: {
-        "$route"() {
-            this.clearError();
+        "$route": "clearError",
+        title(value) {
+            document.title = "BinchApp";
+            if (value)
+                document.title = value + " - " + document.title;
         }
     },
     created() {

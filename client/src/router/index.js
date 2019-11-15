@@ -8,6 +8,7 @@ import Rounds from "@/views/Rounds"
 import Pay from "@/views/Pay"
 import New from "@/views/New";
 import store from "@/store"
+import i18n from "@/plugins/i18n"
 
 Vue.use(VueRouter);
 
@@ -27,13 +28,13 @@ const routes = [
     },
 
     {path: "/home", component: Home},
-    {path: "/new", component: New},
-    {path: "/join", component: Goto},
+    {path: "/new", component: New, meta: {title: "edit.title.new"}},
+    {path: "/join", component: Goto, meta: {title: "goto.title"}},
 
     {path: "/:id", component: Group},
     {path: "/group/:id", component: Group},
-    {path: "/group/:id/edit", component: Edit},
-    {path: "/group/:id/rounds", component: Rounds},
+    {path: "/group/:id/edit", component: Edit, meta: {title: "edit.title.edit"}},
+    {path: "/group/:id/rounds", component: Rounds, meta: {title: "rounds.title"}},
     {path: "/group/:id/pay/:payer", component: Pay},
 
     {path: "*", redirect: "/"},
@@ -42,6 +43,13 @@ const routes = [
 const router = new VueRouter({
     routes,
     mode: "history"
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.meta.title)
+        store.commit("setTitle", i18n.t(to.meta.title));
+
+    next();
 });
 
 export default router

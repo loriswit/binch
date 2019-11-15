@@ -12,7 +12,10 @@
 
 <script>
 export default {
-    name: "Home"
+    name: "Home",
+    created() {
+        this.$store.commit("setTitle", null);
+    }
 }
 </script>
 

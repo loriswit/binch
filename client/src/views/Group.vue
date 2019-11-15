@@ -118,10 +118,14 @@ export default {
     },
     methods: {
         ...mapActions(["fetchGroup"]),
-        ...mapMutations(["onRefresh"]),
+        ...mapMutations(["onRefresh", "setTitle"]),
 
         fetchData() {
-            this.onRefresh(() => this.fetchGroup(this.$route.params.id));
+            this.onRefresh(async () => {
+                await this.fetchGroup(this.$route.params.id);
+                this.setTitle(this.group.name);
+            });
+
             this.refresh();
         }
     },

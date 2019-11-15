@@ -9,9 +9,8 @@ export default new Vuex.Store({
         rounds: [],
         recent: [],
 
+        title: null,
         locale: null,
-
-        runningRequests: 0,
         error: null,
 
         tokens: {},
@@ -21,7 +20,8 @@ export default new Vuex.Store({
         },
 
         // function to run on refresh
-        refresh: null
+        refresh: null,
+        runningRequests: 0
     },
     getters: {
         loading: state => state.runningRequests > 0
@@ -59,6 +59,9 @@ export default new Vuex.Store({
             state.recent = state.recent.filter(e => e.id !== id);
             state.recent.unshift({id: id, name: name});
             localStorage.setItem("recent", JSON.stringify(state.recent));
+        },
+        setTitle(state, title) {
+            state.title = title;
         }
     },
     actions: {
