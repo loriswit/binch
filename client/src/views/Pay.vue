@@ -1,16 +1,22 @@
 <template>
   <v-form v-model="valid" @submit.prevent="submit">
     <h1>{{ $t("pay.title", [$route.params.payer]) }}</h1>
-    <v-text-field class="price"
-                  v-model="price"
-                  :rules="[required, positive]"
-                  type="number"
-                  :autofocus="!price"
-                  outlined
-                  single-line
-                  reverse
-                  :suffix="$t('pay.price.label')"
-    ></v-text-field>
+    <div class="price-row">
+      <div>
+        <v-text-field class="price"
+                      v-model="price"
+                      :rules="[required, positive]"
+                      type="number"
+                      :autofocus="!price"
+                      outlined
+                      rounded
+                      single-line
+                      reverse
+                      :suffix="$t('pay.price.label')"
+        ></v-text-field>
+      </div>
+      <v-switch v-model="total" class="total" color="primary" inset label="Total"/>
+    </div>
 
     <h2>{{ $t("pay.subtitle") }}</h2>
     <v-list v-if="group">
@@ -20,6 +26,7 @@
         </v-list-item-content>
 
         <v-list-item-action class="amount-buttons">
+          <span v-if="consumers[member.name]" class="cost">{{ memberCost(member.name).toFixed(2) }}</span>
           <v-btn icon ripple
                  @click="--consumers[member.name]"
                  :disabled="consumers[member.name] < 1">
@@ -50,6 +57,7 @@ export default {
         return {
             valid: false,
             price: null,
+            total: false,
             consumers: {},
 
             required: value => !!value || this.$t("validation.required"),
@@ -62,8 +70,11 @@ export default {
         enoughConsumers() {
             return Object.values(this.consumers).some(amount => amount > 0);
         },
+        totalAmount() {
+            return Object.values(this.consumers).reduce((a, b) => a + b, 0);
+        },
         totalPrice() {
-            return this.price * Object.values(this.consumers).reduce((a, b) => a + b, 0);
+            return this.total ? Number(this.price) : this.price * this.totalAmount;
         }
     },
     methods: {
@@ -71,15 +82,25 @@ export default {
         ...mapMutations(["onRefresh", "setTitle"]),
 
         async submit() {
+            const price = Math.round(this.price * 100 / (this.total ? this.totalAmount : 1));
             const data = {
                 payer: this.$route.params.payer,
-                price: this.price * 100,
+                price: price,
                 consumers: this.consumers
             };
 
-            localStorage.setItem("price", data.price);
+            localStorage.setItem("price", (this.price * 100).toFixed(0));
+            if (this.total)
+                localStorage.setItem("total", "true");
+            else
+                localStorage.removeItem("total");
+
             await this.postRound({id: this.$route.params.id, rounds: data});
             this.$router.go(-1);
+        },
+
+        memberCost(name) {
+            return this.price * this.consumers[name] / (this.total ? this.totalAmount : 1);
         }
     },
     created() {
@@ -88,6 +109,8 @@ export default {
         const price = localStorage.getItem("price");
         if (price)
             this.price = (parseFloat(price) / 100).toFixed(2);
+
+        this.total = localStorage.getItem("total") || false;
 
         this.onRefresh(async () => {
             await this.fetchGroup(this.$route.params.id);
@@ -104,9 +127,19 @@ export default {
 </script>
 
 <style scoped>
+.price-row {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: baseline;
+}
+
 .v-text-field.price {
   width: 140px;
   margin: auto;
+}
+
+.total {
+  margin: 0;
 }
 
 .amount-buttons {
@@ -116,9 +149,14 @@ export default {
 }
 
 .amount {
-  font-size: 1.5em;
+  font-size: 1.6em;
   font-weight: bold;
   margin-left: 15px;
   margin-right: 15px;
+}
+
+.cost {
+  color: darkgrey;
+  margin-right: 20px;
 }
 </style>
