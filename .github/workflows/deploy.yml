@@ -1,0 +1,55 @@
+name: Deploy
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy-client:
+    name: Deploy client
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Build client
+        working-directory: client
+        run: |
+          npm install
+          npm run build
+
+      - name: Transfer files
+        uses: SamKirkland/FTP-Deploy-Action@2.0.0
+        env:
+          FTP_SERVER: pjhp.ftp.infomaniak.com
+          FTP_USERNAME: pjhp_binch
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          LOCAL_DIR: client/dist
+          REMOTE_DIR: client
+          ARGS: --delete
+
+  deploy-server:
+    name: Deploy server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Install dependencies
+        working-directory: server
+        run: |
+          composer validate --no-check-publish
+          composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Transfer files
+        uses: SamKirkland/FTP-Deploy-Action@2.0.0
+        env:
+          FTP_SERVER: pjhp.ftp.infomaniak.com
+          FTP_USERNAME: pjhp_binch
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          LOCAL_DIR: server
+          REMOTE_DIR: server
+          ARGS: --delete
