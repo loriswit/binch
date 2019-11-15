@@ -1,25 +1,26 @@
-.v-form {
+:not(.v-card) > .v-form {
     padding-bottom: 60px;
 }
 
-.v-form h1 {
+:not(.v-card) > .v-form h1 {
     font-weight: normal;
     margin: 20px;
 }
 
-.v-form h2 {
+:not(.v-card) > .v-form h2 {
     font-weight: normal;
     margin: 10px 20px;
 }
 
-.v-form .v-text-field {
+:not(.v-card) > .v-form .v-text-field {
     margin: 5px 20px;
 }
 
-.v-form .v-list {
-    padding: 0;
+:not(.v-card) > .v-form .v-list {
+    border-top: 1px solid #f0f0f0;
+    border-radius: 0;
 }
 
-.v-list .v-text-field {
+:not(.v-card) > .v-form .v-list .v-text-field {
     padding-top: 0;
 }

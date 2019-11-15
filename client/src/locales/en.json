@@ -65,13 +65,22 @@
     "title": "Round payed by {0}",
     "subtitle": "Consumers",
     "price": {
-      "label": "Price"
+      "label": "Price",
+      "total": "Total"
+    },
+    "dialog": {
+      "title": "Confirm payment?"
+    },
+    "description": {
+      "label": "Add a note..."
     }
   },
   "rounds": {
     "title": "Rounds history",
-    "filter": "Search...",
     "none": "No rounds found",
+    "filter": {
+      "label": "Search..."
+    },
     "dialog": {
       "title": "Round payed by {0}",
       "total": "Total"

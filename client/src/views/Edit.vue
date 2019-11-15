@@ -181,6 +181,7 @@ export default {
   left: 0;
   width: 100%;
   background: #eee;
+  border-radius: 0;
 }
 
 .v-btn:hover {
@@ -193,5 +194,9 @@ export default {
 
 .new-pass {
   margin-left: 20px;
+}
+
+.v-list {
+  margin-top: 10px;
 }
 </style>

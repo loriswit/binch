@@ -10,6 +10,9 @@
             <p class="wrong" v-if="wrong">{{ $t("auth.wrong") }}</p>
           </v-slide-y-transition>
           <v-text-field v-model="input"
+                        outlined
+                        rounded
+                        hide-details
                         ref="input"
                         autocomplete="off"
                         @change="wrong = false"
@@ -25,7 +28,7 @@
           <v-btn text @click="dialog = false">
             {{ $t("button.cancel") }}
           </v-btn>
-          <v-btn text :loading="loading" color="primary" :disabled="!valid" type="submit">
+          <v-btn depressed color="primary" :loading="loading" :disabled="!valid" type="submit">
             {{ $t("button.ok") }}
           </v-btn>
         </v-card-actions>
@@ -110,10 +113,6 @@ export default {
 </script>
 
 <style scoped>
-.v-form {
-  padding: 0;
-}
-
 .wrong {
   color: red;
 }

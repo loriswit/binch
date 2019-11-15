@@ -65,13 +65,22 @@
     "title": "Tournée payée par {0}",
     "subtitle": "Consommateurs",
     "price": {
-      "label": "Prix"
+      "label": "Prix",
+      "total": "Total"
+    },
+    "dialog": {
+      "title": "Confirmer le paiement ?"
+    },
+    "description": {
+      "label": "Ajouter une note..."
     }
   },
   "rounds": {
     "title": "Historique des tournées",
-    "filter": "Rechercher...",
     "none": "Aucune tournée trouvée",
+    "filter": {
+      "label": "Rechercher..."
+    },
     "dialog": {
       "title": "Tournée payée par {0}",
       "total": "Total"

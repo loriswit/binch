@@ -5,35 +5,22 @@
         <v-card-title class="headline" primary-title>
           {{ $t("rounds.dialog.title", [selectedRound.payer]) }}
         </v-card-title>
-        <v-card-text>
-          <v-list>
-            <v-list-item v-for="(amount, name) in selectedRound.consumers" :key="name">
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ name }}
-                </v-list-item-title>
-              </v-list-item-content>
-              <v-list-item-action class="amount">
-                {{ amount }} &times; {{ (parseFloat(selectedRound.price) / 100).toFixed(2) }}
-              </v-list-item-action>
-            </v-list-item>
 
-            <v-divider></v-divider>
+        <v-card-subtitle class="dialog-subtitle">
+          <div class="subtitle-row">
+            <v-icon small>mdi-calendar</v-icon>
+            <span>{{ selectedRound.date | moment("LL, H:mm") }}</span>
+          </div>
+          <div class="subtitle-row" v-if="selectedRound.description">
+            <v-icon small>mdi-card-text-outline</v-icon>
+            <span>{{ selectedRound.description }}</span>
+          </div>
+        </v-card-subtitle>
 
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title class="total">
-                  {{ $t("rounds.dialog.total") }}
-                </v-list-item-title>
-              </v-list-item-content>
-              <v-list-item-action class="amount">
-                {{ selectedRound.drinksCount }}
-                &times; {{ (parseFloat(selectedRound.price) / 100).toFixed(2) }}
-                = {{ (parseFloat(selectedRound.totalPrice) / 100).toFixed(2) }}
-              </v-list-item-action>
-            </v-list-item>
-          </v-list>
+        <v-card-text class="dialog-content">
+          <RoundSummary :round="selectedRound"/>
         </v-card-text>
+
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text @click="dialog = false">
@@ -65,7 +52,7 @@
             <v-text-field
               ref="input"
               v-model="filter"
-              :placeholder="$t('rounds.filter')"
+              :placeholder="$t('rounds.filter.label')"
               hide-details
               dense
               outlined
@@ -83,7 +70,7 @@
             {{ round.date | moment("dddd, LL") }}
           </v-subheader>
 
-          <v-list-item :class="{ deleted: round.deleted }">
+          <v-list-item :class="{ deleted: round.deleted, large: round.description }">
 
             <v-list-item-content class="round">
               <v-list-item-title class="round-title">
@@ -93,8 +80,14 @@
                   {{ drinksCount(round) }} &times; {{ (parseFloat(round.price) / 100).toFixed(2) }}
                 </span>
               </v-list-item-title>
-              <v-list-item-subtitle>
-                <v-icon class="time-icon">mdi-clock-outline</v-icon>
+
+              <v-list-item-subtitle class="subtitle" v-if="round.description">
+                <v-icon class="subtitle-icon">mdi-card-text-outline</v-icon>
+                <span>{{ round.description }}</span>
+              </v-list-item-subtitle>
+
+              <v-list-item-subtitle class="subtitle">
+                <v-icon class="subtitle-icon">mdi-clock-outline</v-icon>
                 <span>{{ round.date | moment("H:mm") }}</span>
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -133,10 +126,11 @@
 import "@/assets/css/form.css"
 import Buttons from "@/components/Buttons"
 import {mapActions, mapState, mapMutations, mapGetters} from "vuex";
+import RoundSummary from "@/components/RoundSummary";
 
 export default {
     name: "Rounds",
-    components: {Buttons},
+    components: {RoundSummary, Buttons},
     data: () => ({
         changedRounds: [],
         selectedRound: null,
@@ -183,8 +177,6 @@ export default {
 
         showConsumers(round) {
             this.selectedRound = round;
-            this.selectedRound.drinksCount = this.drinksCount(round);
-            this.selectedRound.totalPrice = this.selectedRound.drinksCount * round.price;
             this.dialog = true;
         },
         drinksCount(round) {
@@ -235,7 +227,7 @@ export default {
   justify-content: space-between;
 }
 
-h1 {
+.v-form h1 {
   margin: 0;
 }
 
@@ -243,17 +235,33 @@ h1 {
   word-break: normal;
 }
 
-.v-list {
+.dialog-subtitle {
+  background-color: whitesmoke;
+  border-radius: 4px;
+  margin: 0 20px;
+  padding: 0 0 10px;
+  font-size: 1.1em;
+}
+
+.subtitle-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: start;
+  padding: 10px 10px 0;
+}
+
+.dialog-subtitle .v-icon {
+  margin-right: 4px;
+  padding: 3px 6px;
+}
+
+.v-card .dialog-content {
+  padding-bottom: 0;
+}
+
+.v-form .v-list {
   padding: 0;
-}
-
-.total {
-  font-weight: bold;
-}
-
-.amount {
-  text-align: right;
-  font-weight: bold;
+  border-top: none;
 }
 
 .round {
@@ -269,7 +277,18 @@ h1 {
   line-height: 0.9;
 }
 
-.time-icon {
+.subtitle {
+  display: flex;
+  align-items: center;
+}
+
+.subtitle > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.subtitle-icon {
   font-size: 0.9em;
   line-height: 1.5;
   margin-right: 4px;
@@ -277,6 +296,10 @@ h1 {
 
 .deleted {
   background-color: whitesmoke;
+}
+
+.large {
+  min-height: 80px;
 }
 
 .deleted .round-title .round-payer,
