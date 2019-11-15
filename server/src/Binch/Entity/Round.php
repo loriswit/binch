@@ -18,9 +18,10 @@ class Round extends Entity
      * @param int $price The price of a single drink
      * @param Member $payer The member that payed
      * @param array $consumers A list of the members that consumed
+     * @param String $description The description of the round
      * @return Round The created round
      */
-    public static function create(Group $group, int $price, Member $payer, array $consumers)
+    public static function create(Group $group, int $price, Member $payer, array $consumers, String $description)
     {
         $round = new self();
         $round->bean = R::dispense("round");
@@ -28,6 +29,9 @@ class Round extends Entity
         $round->bean->price = $price;
         $round->bean->date = R::isoDateTime();
         $round->bean->deleted = false;
+        
+        if(!empty($description))
+            $round->bean->description = self::format($description);
         
         $amount = 0;
         foreach($consumers as $consumer)
@@ -123,6 +127,7 @@ class Round extends Entity
             "date" => $this->bean->date,
             "price" => intval($this->bean->price),
             "payer" => $this->bean->payer->name,
+            "description" => $this->bean->description,
             "deleted" => boolval($this->bean->deleted)
         ];
         

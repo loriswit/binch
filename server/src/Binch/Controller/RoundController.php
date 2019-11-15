@@ -53,7 +53,8 @@ class RoundController extends Controller
         $params->validate([
             "price" => ["required" => true, "type" => "int"],
             "payer" => ["required" => true, "type" => "string"],
-            "consumers" => ["required" => true, "array" => "int"]
+            "consumers" => ["required" => true, "array" => "int"],
+            "description" => ["required" => false, "type" => "string"]
         ]);
         
         $price = $params->price;
@@ -82,7 +83,9 @@ class RoundController extends Controller
         if(count($consumers) == 0)
             throw new HttpError(422, "Round must have at least one consumer");
         
-        $round = Round::create($group, $price, $payer, $consumers);
+        $description = $params->description ?? "";
+        
+        $round = Round::create($group, $price, $payer, $consumers, $description);
         $round->save();
         
         $url = $this->container->get("router")->pathFor("rounds", ["path" => $path]);
