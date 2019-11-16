@@ -137,14 +137,10 @@ export default {
             this.round = {
                 payer: this.$route.params.payer,
                 price: price,
-                consumers: {}
+                consumers:
+                    Object.fromEntries(Object.entries(this.consumers)
+                        .filter(([, amount]) => amount > 0))
             };
-
-            // remove consumers with no drinks
-            Object.assign(this.round.consumers, this.consumers);
-            for (const member of Object.keys(this.round.consumers))
-                if (this.round.consumers[member] < 1)
-                    delete this.round.consumers[member];
 
             this.dialog = true;
         },

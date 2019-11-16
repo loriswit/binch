@@ -151,6 +151,7 @@ export default {
             return this.rounds.filter(round =>
                 this.normalize(this.filter).split(/\b\s+/).every(word =>
                     this.normalize(round.payer).includes(word) ||
+                    (round.description && this.normalize(round.description).includes(word)) ||
                     this.normalize(this.$moment(round.date).format("dddd LL")).includes(word)
                 ));
         },
@@ -246,7 +247,7 @@ export default {
 .subtitle-row {
   display: flex;
   flex-wrap: nowrap;
-  align-items: start;
+  align-items: flex-start;
   padding: 10px 10px 0;
 }
 
