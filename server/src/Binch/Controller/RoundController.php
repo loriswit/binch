@@ -7,6 +7,7 @@ use Binch\Entity\Member;
 use Binch\Entity\Round;
 use Binch\Util\HttpError;
 use Binch\Util\Params;
+use RedBeanPHP\R;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -48,6 +49,10 @@ class RoundController extends Controller
     public function post(Request $request, Response $response, String $path)
     {
         $group = $request->getAttribute("group");
+        
+        // avoid multiple rounds being created at the same time
+        if(Round::find(R::isoDateTime(), $group))
+            throw new HttpError(429);
         
         $params = new Params($request->getBody());
         $params->validate([
