@@ -2,7 +2,7 @@
   <v-app>
     <Header/>
 
-    <v-content>
+    <v-main>
       <v-fade-transition>
         <Loading v-if="loading"/>
       </v-fade-transition>
@@ -18,7 +18,7 @@
       <v-slide-y-transition mode="out-in">
         <router-view class="main-component"/>
       </v-slide-y-transition>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

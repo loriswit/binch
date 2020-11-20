@@ -236,7 +236,7 @@ export default {
   word-break: normal;
 }
 
-.dialog-subtitle {
+.v-card > .dialog-subtitle {
   background-color: whitesmoke;
   border-radius: 4px;
   margin: 0 20px;
