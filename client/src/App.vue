@@ -46,7 +46,7 @@ export default {
     watch: {
         "$route": "clearError",
         title(value) {
-            document.title = "BinchApp";
+            document.title = process.env.VUE_APP_TITLE;
             if (value)
                 document.title = value + " - " + document.title;
         }

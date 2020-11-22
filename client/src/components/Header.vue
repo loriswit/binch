@@ -60,19 +60,19 @@
     <v-app-bar color="primary" clipped-left flat dark>
       <v-app-bar-nav-icon @click.stop="showDrawer = !showDrawer" :disabled="loading"></v-app-bar-nav-icon>
       <v-toolbar-title>
-        {{ isGroupPage ? group.name : "BinchApp" }}
+        {{ isGroupPage ? group.name : appTitle }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <span v-if="showDev" class="badge dev">dev</span>
       <span class="badge beta">beta</span>
-      <v-scale-transition>
-        <v-btn v-if="$route.params.id && refresh"
-               @click="refresh"
-               :disabled="loading"
-               icon>
-          <v-icon>mdi-refresh</v-icon>
-        </v-btn>
-      </v-scale-transition>
+
+      <v-btn v-if="$route.params.id && refresh"
+             @click="refresh"
+             :disabled="loading"
+             icon>
+        <v-icon>mdi-refresh</v-icon>
+      </v-btn>
+      <img v-else src="@/assets/images/logo.svg" alt="Logo" class="logo">
     </v-app-bar>
   </header>
 </template>
@@ -83,6 +83,7 @@ import {mapGetters, mapState} from "vuex";
 export default {
     name: "Header",
     data: () => ({
+        appTitle: process.env.VUE_APP_TITLE,
         showDrawer: false,
         mainItems: [{
             icon: "home",
@@ -140,6 +141,12 @@ export default {
 </script>
 
 <style scoped>
+.logo {
+  width: 28px;
+  margin-left: 6px;
+  margin-right: 2px;
+}
+
 .badge {
   font-weight: bold;
   font-size: 0.8em;
@@ -156,7 +163,7 @@ export default {
 }
 
 .dev {
-  background-color: mediumseagreen;
+  background-color: cornflowerblue;
 }
 
 .list-heading {
