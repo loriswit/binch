@@ -33,10 +33,10 @@ module.exports = {
                 src: "img/icons/icon.svg",
                 sizes: "any"
             }, {
-                src: "icon-512x512.png",
+                src: "img/icons/icon-512x512.png",
                 sizes: "512x512"
             }, {
-                src: "icon-maskable-512x512.png",
+                src: "img/icons/icon-maskable-512x512.png",
                 sizes: "512x512",
                 purpose: "maskable"
             }]
