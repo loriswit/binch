@@ -1,34 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" width="500">
-      <v-card v-if="selectedRound">
-        <v-card-title class="headline" primary-title>
-          {{ $t("rounds.dialog.title", [selectedRound.payer]) }}
-        </v-card-title>
-
-        <v-card-subtitle class="dialog-subtitle">
-          <div class="subtitle-row">
-            <v-icon small>mdi-calendar</v-icon>
-            <span>{{ selectedRound.date | moment("LL, H:mm") }}</span>
-          </div>
-          <div class="subtitle-row" v-if="selectedRound.description">
-            <v-icon small>mdi-card-text-outline</v-icon>
-            <span>{{ selectedRound.description }}</span>
-          </div>
-        </v-card-subtitle>
-
-        <v-card-text class="dialog-content">
-          <RoundSummary :round="selectedRound"/>
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text @click="dialog = false">
-            {{ $t("button.close") }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <round-dialog v-model="dialog" :round="selectedRound"/>
 
     <v-form @submit.prevent="submit">
       <header>
@@ -113,9 +85,7 @@
 
       <h2 v-if="!loading && !filteredRounds.length">{{ $t("rounds.none") }}</h2>
 
-      <div class="progress" v-if="visibleRounds.length < filteredRounds.length">
-        <v-progress-circular color="primary" indeterminate/>
-      </div>
+      <scroll-progress v-if="visibleRounds.length < filteredRounds.length"/>
 
       <Buttons :text="$t('button.save')" :valid="changedRounds.some(x => x)"/>
     </v-form>
@@ -126,11 +96,12 @@
 import "@/assets/css/form.css"
 import Buttons from "@/components/Buttons"
 import {mapActions, mapState, mapMutations, mapGetters} from "vuex";
-import RoundSummary from "@/components/RoundSummary";
+import RoundDialog from "@/components/RoundDialog";
+import ScrollProgress from "@/components/ScrollProgress";
 
 export default {
     name: "Rounds",
-    components: {RoundSummary, Buttons},
+    components: {ScrollProgress, RoundDialog, Buttons},
     data: () => ({
         changedRounds: [],
         selectedRound: null,
@@ -232,34 +203,6 @@ export default {
   margin: 0;
 }
 
-.headline {
-  word-break: normal;
-}
-
-.v-card > .dialog-subtitle {
-  background-color: whitesmoke;
-  border-radius: 4px;
-  margin: 0 20px;
-  padding: 0 0 10px;
-  font-size: 1.1em;
-}
-
-.subtitle-row {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  padding: 10px 10px 0;
-}
-
-.dialog-subtitle .v-icon {
-  margin-right: 4px;
-  padding: 3px 6px;
-}
-
-.v-card .dialog-content {
-  padding-bottom: 0;
-}
-
 .v-form .v-list {
   padding: 0;
   border-top: none;
@@ -307,12 +250,6 @@ export default {
 .deleted .round-title .round-drinks {
   color: grey;
   text-decoration: line-through;
-}
-
-.progress {
-  display: block;
-  margin: 20px;
-  text-align: center;
 }
 
 </style>

@@ -1,14 +1,18 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
+
+import store from "@/store"
+import i18n from "@/plugins/i18n"
+
 import Home from "@/views/Home"
 import Group from "@/views/Group"
 import Goto from "@/views/Goto"
 import Edit from "@/views/Edit"
 import Rounds from "@/views/Rounds"
 import Pay from "@/views/Pay"
-import New from "@/views/New";
-import store from "@/store"
-import i18n from "@/plugins/i18n"
+import New from "@/views/New"
+import Members from "@/views/Members"
+import Member from "@/views/Member"
 
 Vue.use(VueRouter);
 
@@ -36,6 +40,8 @@ const routes = [
     {path: "/group/:id/edit", component: Edit, meta: {title: "edit.title.edit"}},
     {path: "/group/:id/rounds", component: Rounds, meta: {title: "rounds.title"}},
     {path: "/group/:id/pay/:payer", component: Pay},
+    {path: "/group/:id/members", component: Members},
+    {path: "/group/:id/members/:member", component: Member},
 
     {path: "*", redirect: "/"},
 ];

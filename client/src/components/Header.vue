@@ -99,6 +99,10 @@ export default {
             page: "/new"
         }],
         groupItems: [{
+            icon: "account",
+            name: "members",
+            page: "/members"
+        }, {
             icon: "history",
             name: "rounds",
             page: "/rounds"
