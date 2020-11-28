@@ -11,7 +11,7 @@
           </v-list-item-title>
           <v-list-item-subtitle v-if="valueType === 'delta'">
             <span class="paid">+{{ member.paid.toFixed(2) }}</span>
-            <span class="consumed">-{{ member.consumed.toFixed(2) }}</span>
+            <span class="consumed">&minus;{{ member.consumed.toFixed(2) }}</span>
           </v-list-item-subtitle>
         </v-list-item-content>
 
@@ -19,7 +19,7 @@
           {{ member.percent.toFixed(1) }} %
         </v-list-item-action>
         <v-list-item-action class="percent" v-else>
-          {{ (member.delta >= 0 ? "+ " : "- ") + Math.abs(member.delta).toFixed(2) }}
+          {{ (member.delta >= 0 ? "+ " : "&minus; ") + Math.abs(member.delta).toFixed(2) }}
         </v-list-item-action>
 
         <v-list-item-action>
