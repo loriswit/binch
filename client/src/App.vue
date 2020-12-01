@@ -16,7 +16,9 @@
       </v-slide-y-transition>
 
       <v-slide-y-transition mode="out-in">
-        <router-view class="main-component"/>
+        <div class="main-component">
+          <router-view/>
+        </div>
       </v-slide-y-transition>
     </v-main>
   </v-app>
