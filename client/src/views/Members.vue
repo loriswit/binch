@@ -4,10 +4,10 @@
     <v-container>
       <v-row v-for="(_, i) in members.length / 2" :key="'row-' + i" justify="center">
         <v-col v-for="j in 2" :key="'col-' + j" cols="5">
-          <v-card :to="'members/' + members[i * 2 + j - 1]"
-                  class="member" color="primary" outlined>
-            {{ members[i * 2 + j - 1] }}
-          </v-card>
+          <router-link :to="'members/' + members[i * 2 + j - 1]" class="member">
+            <v-icon>mdi-account</v-icon>
+            <span>{{ members[i * 2 + j - 1] }}</span>
+          </router-link>
         </v-col>
       </v-row>
     </v-container>
@@ -51,21 +51,35 @@ h1 {
 }
 
 .member {
-  color: white;
-  padding: 10px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  /*color: black;*/
+  border-bottom: 1px whitesmoke solid;
+  padding: 15px 6px;
+  margin: 5px;
+  text-decoration: none;
   font-size: 1.2em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.member:hover {
+  background: whitesmoke;
+}
+
+.member .v-icon {
+  font-size: 1em;
+  margin-right: 8px;
+}
+
 .col {
-  margin-left: 15px;
+  padding: 0;
+  margin-left: 10px;
   margin-right: 0;
 }
 
 .col:last-child {
-  margin-right: 15px;
+  margin-right: 10px;
 }
 </style>
