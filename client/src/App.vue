@@ -15,11 +15,11 @@
         </v-alert>
       </v-slide-y-transition>
 
-      <v-slide-y-transition mode="out-in">
-        <div class="main-component">
+      <div class="main-component">
+        <v-slide-y-transition mode="out-in">
           <router-view/>
-        </div>
-      </v-slide-y-transition>
+        </v-slide-y-transition>
+      </div>
     </v-main>
   </v-app>
 </template>
