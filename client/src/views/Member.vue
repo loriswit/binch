@@ -24,7 +24,7 @@
           {{ round.date | moment("dddd, LL") }}
         </v-subheader>
 
-        <v-list-item :class="{ deleted: round.deleted, large: round.description }">
+        <v-list-item :class="{ large: round.description }">
 
           <v-list-item-content class="round">
             <v-list-item-title class="round-title">
@@ -83,10 +83,11 @@ export default {
             return this.group?.members.find(({name}) => name === this.$route.params.member);
         },
         consumed() {
-            return this.rounds.filter(({consumers}) => consumers.hasOwnProperty(this.$route.params.member))
+            return this.rounds.filter(({consumers, deleted}) =>
+                !deleted && consumers.hasOwnProperty(this.$route.params.member))
         },
         paid() {
-            return this.rounds.filter(({payer}) => payer === this.$route.params.member)
+            return this.rounds.filter(({payer, deleted}) => !deleted && payer === this.$route.params.member)
         },
         visibleRounds() {
             return this.consumed.slice(0, this.amountDisplayed);
