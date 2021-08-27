@@ -9,5 +9,10 @@
     "psr-4": {
       "Binch\\": "src/Binch"
     }
+  },
+  "config": {
+    "platform": {
+      "php": "7.4"
+    }
   }
 }
