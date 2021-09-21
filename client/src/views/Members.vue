@@ -2,9 +2,10 @@
   <div id="members" v-if="group">
     <h1>{{ $t("members.title") }}</h1>
     <v-container>
-      <v-row v-for="(_, i) in members.length / 2" :key="'row-' + i" justify="center">
+      <v-row v-for="(_, i) in Math.ceil(members.length / 2)" :key="'row-' + i" justify="center">
         <v-col v-for="j in 2" :key="'col-' + j" cols="5">
-          <router-link :to="'members/' + members[i * 2 + j - 1]" class="member">
+          <router-link v-if="members.length >= i * 2 + j"
+                       :to="'members/' + members[i * 2 + j - 1]" class="member">
             <v-icon>mdi-account</v-icon>
             <span>{{ members[i * 2 + j - 1] }}</span>
           </router-link>
