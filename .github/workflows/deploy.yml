@@ -1,6 +1,7 @@
 name: Deploy
 
 on:
+  workflow_dispatch:
   release:
     types: [published]
 
@@ -23,14 +24,14 @@ jobs:
           npm run build
 
       - name: Transfer files
-        uses: SamKirkland/FTP-Deploy-Action@2.0.0
-        env:
-          FTP_SERVER: pjhp.ftp.infomaniak.com
-          FTP_USERNAME: pjhp_binch
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-          LOCAL_DIR: client/dist
-          REMOTE_DIR: client
-          ARGS: --delete
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: va1b3.ftp.infomaniak.com
+          username: va1b3_binch
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: client/dist
+          server-dir: client
+          dangerous-clean-slate: true
 
   deploy-server:
     name: Deploy server
@@ -45,11 +46,11 @@ jobs:
           composer install --prefer-dist --no-progress --no-suggest
 
       - name: Transfer files
-        uses: SamKirkland/FTP-Deploy-Action@2.0.0
-        env:
-          FTP_SERVER: pjhp.ftp.infomaniak.com
-          FTP_USERNAME: pjhp_binch
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-          LOCAL_DIR: server
-          REMOTE_DIR: server
-          ARGS: --delete
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: va1b3.ftp.infomaniak.com
+          username: va1b3_binch
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: server
+          server-dir: server
+          dangerous-clean-slate: true
