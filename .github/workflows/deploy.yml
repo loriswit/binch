@@ -29,8 +29,8 @@ jobs:
           server: va1b3.ftp.infomaniak.com
           username: va1b3_binch
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: client/dist
-          server-dir: client
+          local-dir: client/dist/
+          server-dir: client/
           dangerous-clean-slate: true
 
   deploy-server:
@@ -51,6 +51,6 @@ jobs:
           server: va1b3.ftp.infomaniak.com
           username: va1b3_binch
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: server
-          server-dir: server
+          local-dir: server/
+          server-dir: server/
           dangerous-clean-slate: true
