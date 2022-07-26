@@ -10,7 +10,7 @@
   "dependencies": {
     "@mdi/font": "^3.9.97",
     "core-js": "^3.7.0",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "register-service-worker": "^1.7.1",
     "typeface-open-sans": "0.0.75",
     "vue": "^2.6.12",
