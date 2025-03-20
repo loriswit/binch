@@ -122,6 +122,7 @@
     "default": "Requête échouée : {0}",
     "disconnected": "Connexion au serveur échouée",
     "offline": "Aucune connexion internet",
-    "group": "Le groupe \"{0}\" n'existe pas"
+    "group": "Le groupe \"{0}\" n'existe pas",
+    "read-only": "Opération impossible: BinchApp est en lecture seule"
   }
 }

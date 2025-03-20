@@ -125,6 +125,11 @@ const http = {
     },
 
     async sendRequest(context, options, auth = null) {
+        if (process.env.VUE_APP_READ_ONLY && options.method !== "GET") {
+            context.state.error = {msg: "read-only"};
+            throw new Error(`Can't perform ${options.method} request: app is in read-only mode`);
+        }
+
         ++context.state.runningRequests;
 
         if (auth) {

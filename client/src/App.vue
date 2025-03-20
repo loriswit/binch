@@ -53,10 +53,20 @@ export default {
                 document.title = value + " - " + document.title;
         }
     },
-    created() {
+    async created() {
         if (Object.keys(this.$i18n.messages).includes(this.locale)) {
             this.$i18n.locale = this.locale;
             this.$moment.locale(this.locale);
+        }
+
+        if (process.env.VUE_APP_READ_ONLY) {
+            try {
+                const res = await this.$http({url: ""})
+                const msg = (await res.json()).msg
+                alert(msg)
+            } catch (_) {
+                alert("This application is in read-only mode.")
+            }
         }
     }
 }

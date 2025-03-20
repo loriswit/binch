@@ -122,6 +122,7 @@
     "default": "Request failed: {0}",
     "disconnected": "Connection to server failed",
     "offline": "Not connected to internet",
-    "group": "The group '{0}' does not exist"
+    "group": "The group '{0}' does not exist",
+    "read-only": "Operation denied: BinchApp is in read-only mode"
   }
 }
